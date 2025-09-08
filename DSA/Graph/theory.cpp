@@ -2,7 +2,7 @@ graph have nodes & edges
 
 node: entity for store data
 edges : lines that connect nodes
-degree: nomber of edges connected to node
+degree: number of edges connected to node
 path: 
 =>a-b-c ✔
 =>a-b-c-a ❌(same node not come twice)
