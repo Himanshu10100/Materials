@@ -1,4 +1,4 @@
-void dfs(int node,unordered_map<int,list<int>> &adj,unordered_map<int,bool> &visited,vector<int> &component){
+void dfs(int node, unordered_map<int,list<int>> &adj,unordered_map<int, bool> &visited,vector<int> &component){
     visited[node] = 1;
     component.push_back(node);
 
