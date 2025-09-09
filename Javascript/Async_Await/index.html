@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const getData = async () => {
+            console.log("task 2 : Fetching...");
+
+            const data = await new Promise(resolve =>
+                setTimeout(() => resolve("task 2 done!"), 2000)
+            );
+
+            console.log(data);
+
+            await new Promise(resolve =>
+                setTimeout(() => resolve(console.log("d1 done")), 3000)
+            );
+
+            // console.log(d1);
+            console.log("Done");
+        };
+        console.log("task 1");
+
+        getData();
+        console.log("task 3");
+        // <!-- 
+        // task 1
+        // task 2 : Fetching...
+        // task 3
+        // task 2 done!
+        // d1 done
+        // Done
+        // -->
+
+    </script>
+</body>
+
+</html>
