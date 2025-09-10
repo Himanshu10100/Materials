@@ -1,0 +1,263 @@
+Perfect 👍 Let’s break down **JavaScript Data Types** clearly.
+
+JavaScript has **two categories** of data types:
+
+1. **Primitive Data Types** (immutable, stored directly in memory)
+2. **Non-Primitive / Reference Types** (like objects, arrays, functions – stored by reference)
+
+Here, we’ll focus on **Primitive types**:
+
+---
+
+## 🔹 Primitive Data Types
+
+### 1. **String**
+
+* Text data enclosed in quotes (`''`, `""`, or \`\`\`\`).
+* Can contain letters, numbers, or symbols.
+
+```js
+let name = "Himanshu";
+let message = `Hello, ${name}!`; // Template literal
+```
+
+✅ Used for: text, messages, labels.
+
+---
+
+### 2. **Number**
+
+* Represents integers and floating-point numbers.
+* Includes special values: `Infinity`, `-Infinity`, `NaN` (Not-a-Number).
+
+```js
+let age = 25;       // integer
+let price = 99.99;  // float
+let big = 1e6;      // exponential (1,000,000)
+let weird = 10 / "a"; // NaN
+```
+
+✅ Used for: math, calculations, measurements.
+
+---
+
+### 3. **Boolean**
+
+* Only two values: `true` or `false`.
+* Often used in conditions, comparisons, and logic.
+
+```js
+let isLoggedIn = true;
+let hasAccess = false;
+
+console.log(5 > 2); // true
+```
+
+✅ Used for: flags, conditions.
+
+---
+
+### 4. **Null**
+
+* Intentional absence of a value.
+* Means “empty” or “nothing”.
+
+```js
+let user = null; // No user selected
+```
+
+✅ Used for: resetting values, clearing variables.
+
+---
+
+### 5. **Undefined**
+
+* A variable declared but **not assigned** any value.
+
+```js
+let x;
+console.log(x); // undefined
+```
+
+✅ Used for: uninitialized variables, missing function parameters.
+
+---
+
+### 6. **Symbol (ES6)**
+
+* Unique and immutable identifier.
+* Even if two symbols have the same description, they are different.
+
+```js
+let s1 = Symbol("id");
+let s2 = Symbol("id");
+console.log(s1 === s2); // false
+```
+
+✅ Used for: unique keys in objects (avoids name clashes).
+
+---
+
+### 7. **BigInt (ES11)**
+
+* Used to represent very large integers (beyond `Number.MAX_SAFE_INTEGER`).
+* Created by appending `n` at the end of a number.
+
+```js
+let bigNum = 123456789012345678901234567890n;
+let another = BigInt(9007199254740991); // Using constructor
+```
+
+✅ Used for: working with huge numbers (cryptography, precise calculations).
+
+---
+
+## ⚡ Summary Table
+
+| Data Type     | Example                          | Meaning / Use Case         |
+| ------------- | -------------------------------- | -------------------------- |
+| **String**    | `"Hello"`, `'World'`, `` `Hi` `` | Textual data               |
+| **Number**    | `42`, `3.14`, `NaN`              | Numbers, math              |
+| **Boolean**   | `true`, `false`                  | Logic, conditions          |
+| **Null**      | `null`                           | Empty, intentional absence |
+| **Undefined** | `undefined`                      | Not assigned               |
+| **Symbol**    | `Symbol("id")`                   | Unique keys                |
+| **BigInt**    | `12345678901234567890n`          | Very large integers        |
+
+---
+
+👉 Pro Tip:
+All these (except **Symbol** and **BigInt**) can be converted into one another using type casting (`String()`, `Number()`, `Boolean()` etc.).
+
+---
+
+Do you want me to also cover **type conversion** (implicit vs explicit) after this? That’s the next big topic in mastering data types.
+
+Perfect 👍 Let’s go through all **10 questions with answers + explanations** about JavaScript data types:
+
+---
+
+### 🔹 Beginner
+
+**1. What is the difference between `null` and `undefined` in JavaScript?**
+
+* `null` → intentional absence of a value (you assign it).
+* `undefined` → variable declared but not assigned any value.
+
+```js
+let a;           // undefined
+let b = null;    // null
+```
+
+---
+
+**2. How do you check the type of a variable in JavaScript?**
+
+* Using `typeof` operator.
+
+```js
+let x = "Hello";
+console.log(typeof x); // "string"
+```
+
+---
+
+**3. What will be the output of `console.log(typeof NaN);`**
+
+* `"number"`
+* `NaN` stands for *Not-a-Number*, but its type is still `"number"`.
+
+```js
+console.log(typeof NaN); // "number"
+```
+
+---
+
+**4. Can a string in JavaScript contain numbers and symbols?**
+
+* ✅ Yes, because a string is any text wrapped in quotes.
+
+```js
+let str = "123@#Hello!";
+console.log(str); // "123@#Hello!"
+```
+
+---
+
+**5. What is the difference between `==` and `===`?**
+
+* `==` → checks only value (performs type conversion).
+* `===` → checks value **and** type (strict equality).
+
+```js
+console.log(5 == "5");  // true  (value same)
+console.log(5 === "5"); // false (different type)
+```
+
+---
+
+### 🔹 Intermediate
+
+**6. What happens if you try to add a number and a string?**
+
+* Number is converted to a string → concatenation.
+
+```js
+console.log(5 + "5"); // "55"
+```
+
+---
+
+**7. How does JavaScript handle very large numbers beyond `Number.MAX_SAFE_INTEGER`?**
+
+* Precision errors occur.
+* Use `BigInt` to handle large integers.
+
+```js
+console.log(Number.MAX_SAFE_INTEGER); // 9007199254740991
+console.log(9007199254740991 + 10);   // 9007199254741000 (wrong!)
+console.log(9007199254740991n + 10n); // 9007199254741001n (correct using BigInt)
+```
+
+---
+
+**8. What are the unique characteristics of a Symbol data type?**
+
+* Symbols are unique and immutable.
+* Even if two symbols have the same description, they’re not equal.
+
+```js
+let s1 = Symbol("id");
+let s2 = Symbol("id");
+console.log(s1 === s2); // false
+```
+
+---
+
+### 🔹 Advanced
+
+**9. Why is `typeof null` equal to `"object"` in JavaScript?**
+
+* Historical bug in JavaScript (from 1995).
+* Internally, `null` is represented as a falsy object reference.
+
+```js
+console.log(typeof null); // "object"
+```
+
+---
+
+**10. How would you safely check if a value is a `BigInt`?**
+
+* Use `typeof`.
+
+```js
+let big = 123n;
+console.log(typeof big === "bigint"); // true
+```
+
+---
+
+✅ That covers all 10 questions with clear answers.
+
+Do you want me to now prepare **practice coding exercises** around data types (mix of console outputs + debugging) so you can test yourself?
