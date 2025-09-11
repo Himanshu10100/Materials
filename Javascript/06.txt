@@ -1,0 +1,117 @@
+Sure! Let’s break down **“6. Strings & Template Literals”**—a common topic in JavaScript.
+
+---
+
+## 🔹 What Are Strings?
+
+In JavaScript, a **string** is a sequence of characters used to represent text.
+
+You can create strings using:
+
+```js
+let str1 = "Hello";
+let str2 = 'World';
+let str3 = `Hi there!`; // template literal
+```
+
+All three are valid, but the **backtick (`` ` ``)** is special — it introduces a **template literal**.
+
+---
+
+## 🔹 Template Literals
+
+Template literals (also called **template strings**) are a modern way to work with strings in JavaScript. They make it easier to:
+
+* Embed expressions
+* Create multi-line strings
+* Combine variables with strings (string interpolation)
+
+---
+
+## 🧩 Syntax
+
+```js
+let name = "Alice";
+let greeting = `Hello, ${name}!`;
+console.log(greeting); // "Hello, Alice!"
+```
+
+* Use **backticks** instead of quotes
+* Use **`${expression}`** to embed variables or expressions
+
+---
+
+## ✅ Benefits of Template Literals
+
+### 1. **String Interpolation** (Easier variable insertion)
+
+```js
+let age = 25;
+let message = `I am ${age} years old.`;
+```
+
+Without template literals, you would write:
+
+```js
+let message = "I am " + age + " years old.";
+```
+
+Template literals are cleaner and more readable.
+
+---
+
+### 2. **Multi-line Strings**
+
+With template literals, you can write strings across multiple lines:
+
+```js
+let poem = `Roses are red,
+Violets are blue,
+Sugar is sweet,
+And so are you.`;
+```
+
+Without template literals, you'd have to use `\n`:
+
+```js
+let poem = "Roses are red,\nViolets are blue,\nSugar is sweet,\nAnd so are you.";
+```
+
+---
+
+### 3. **Expressions Inside Strings**
+
+You can evaluate any expression inside `${}`:
+
+```js
+let a = 10;
+let b = 5;
+let result = `The sum is ${a + b}`;  // "The sum is 15"
+```
+
+---
+
+## 🔐 Summary
+
+| Feature                | Template Literal | Traditional String |
+| ---------------------- | ---------------- | ------------------ |
+| Use backticks          | ✅                | ❌                  |
+| Variable interpolation | `${}`            | Use `+`            |
+| Multi-line strings     | ✅                | ❌ (use `\n`)       |
+| Expression evaluation  | ✅                | ❌                  |
+
+---
+
+### 📌 Example:
+
+```js
+let firstName = "John";
+let lastName = "Doe";
+let fullName = `${firstName} ${lastName}`;
+
+console.log(`Your full name is: ${fullName}`);
+```
+
+---
+
+Let me know if you want **examples with functions**, **loops**, or **HTML templates** using template literals!
