@@ -1,0 +1,105 @@
+Perfect 👍 Let’s go deep into **JavaScript Loops**.
+
+Loops are used to **repeat code** until a condition is met.
+
+---
+
+## 🔁 **1. `for` loop**
+
+The most common loop.
+It has **initialization → condition → increment/decrement**.
+
+```js
+for (let i = 0; i < 5; i++) {
+  console.log(i); // 0 1 2 3 4
+}
+```
+
+---
+
+## 🔁 **2. `while` loop**
+
+Runs as long as the condition is `true`.
+
+```js
+let i = 0;
+while (i < 5) {
+  console.log(i); // 0 1 2 3 4
+  i++;
+}
+```
+
+⚠️ If you forget `i++`, it becomes **infinite loop**.
+
+---
+
+## 🔁 **3. `do...while` loop**
+
+Executes **at least once**, even if the condition is false.
+
+```js
+let i = 5;
+do {
+  console.log(i); // prints 5 at least once
+  i++;
+} while (i < 5);
+```
+
+---
+
+## 🔁 **4. `for...of` loop** (ES6)
+
+Used to iterate over **arrays, strings, maps, sets** (iterables).
+
+```js
+let fruits = ["apple", "banana", "cherry"];
+for (let fruit of fruits) {
+  console.log(fruit); // apple, banana, cherry
+}
+```
+
+---
+
+## 🔁 **5. `for...in` loop**
+
+Used to iterate over **object keys** (enumerable properties).
+
+```js
+let person = { name: "John", age: 30, city: "Delhi" };
+
+for (let key in person) {
+  console.log(key, ":", person[key]);
+}
+// name : John
+// age : 30
+// city : Delhi
+```
+
+⚠️ Don’t use `for...in` for arrays → order may not be guaranteed.
+
+---
+
+## ✅ Extra: `break` & `continue`
+
+```js
+for (let i = 1; i <= 5; i++) {
+  if (i === 3) continue; // skip 3
+  if (i === 5) break;    // stop loop at 5
+  console.log(i);
+}
+// Output: 1, 2, 4
+```
+
+---
+
+## 📌 **Summary**
+
+* `for` → best when you know how many times to loop.
+* `while` → when condition controls loop.
+* `do...while` → when code must run **at least once**.
+* `for...of` → for arrays, strings, iterables.
+* `for...in` → for objects (keys).
+
+---
+
+👉 Do you want me to create **10 practice questions with answers** for loops (like guessing output, writing loops, real-world small tasks)?

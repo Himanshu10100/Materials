@@ -1,0 +1,110 @@
+Perfect 👍 Let’s dive into **JavaScript Scope (global, function, block)**.
+
+---
+
+# 🔹 What is Scope?
+
+**Scope** defines where variables can be **accessed** or **modified** in your code.
+It determines a variable’s **lifetime** and **visibility**.
+
+---
+
+# 1️⃣ **Global Scope**
+
+* Variables declared **outside** of any function or block.
+* Accessible **everywhere** in the program.
+
+```js
+let globalVar = "I am global";
+
+function show() {
+  console.log(globalVar); // ✅ Accessible
+}
+
+show();
+console.log(globalVar); // ✅ Accessible
+```
+
+⚠️ Be careful: too many global variables can cause conflicts.
+
+---
+
+# 2️⃣ **Function Scope**
+
+* Variables declared **inside a function** are only available **inside that function**.
+* Defined using `var`, `let`, or `const`.
+
+```js
+function testScope() {
+  let functionVar = "I exist only in this function";
+  console.log(functionVar); // ✅ Accessible
+}
+
+testScope();
+// console.log(functionVar); ❌ Error: not defined
+```
+
+---
+
+# 3️⃣ **Block Scope**
+
+* A block is code inside `{ }` (loops, if, etc.).
+* Variables declared with `let` and `const` are block-scoped.
+* `var` ignores block scope → it becomes function/global scoped.
+
+```js
+if (true) {
+  let blockLet = "Block-scoped with let";
+  const blockConst = "Block-scoped with const";
+  var blockVar = "Not block-scoped, var leaks!";
+}
+
+console.log(blockVar);   // ✅ Works (var is function/global scoped)
+// console.log(blockLet); // ❌ Error
+// console.log(blockConst); // ❌ Error
+```
+
+---
+
+# 🔹 Scope Chain
+
+If a variable is not found in the current scope, JS looks **upward** in the outer scopes → until **global scope**.
+
+```js
+let outer = "outer";
+
+function parent() {
+  let inner = "inner";
+  
+  function child() {
+    console.log(outer); // ✅ Found in parent/global
+    console.log(inner); // ✅ Found in parent
+  }
+  
+  child();
+}
+
+parent();
+```
+
+---
+
+# 🔹 Summary
+
+| Scope Type   | Declared Where?                | Accessible Where?      |
+| ------------ | ------------------------------ | ---------------------- |
+| **Global**   | Outside any block/function     | Everywhere             |
+| **Function** | Inside a function              | Only in that function  |
+| **Block**    | Inside `{}` with `let`/`const` | Only inside that block |
+
+---
+
+✅ **Key Points**
+
+* `var` → function scope (ignores block).
+* `let` & `const` → block scope (preferred).
+* Scope chain allows inner functions to use outer variables.
+
+---
+
+Would you like me to now create **10 practice Q\&A on Scope** (global, function, block) just like we did for operators?

@@ -1,0 +1,125 @@
+Perfect 👍 Let’s go deep into **Numbers & Math functions in JavaScript**.
+
+---
+
+## **1. Numbers in JavaScript**
+
+* In JS, all numbers are stored as **64-bit floating-point** (no separate int/float type).
+* Examples:
+
+  ```js
+  let intNum = 10;       // integer
+  let floatNum = 10.5;   // decimal
+  let expNum = 1.23e4;   // exponential (12300)
+  ```
+
+---
+
+## **2. Number Methods**
+
+JS provides built-in methods on numbers:
+
+* **toFixed(n)** → returns string with `n` decimal places
+
+  ```js
+  (3.14159).toFixed(2); // "3.14"
+  ```
+
+* **toPrecision(n)** → total number of digits
+
+  ```js
+  (3.14159).toPrecision(3); // "3.14"
+  ```
+
+* **toString(base)** → converts number to string in given base
+
+  ```js
+  (255).toString(16); // "ff" (hexadecimal)
+  ```
+
+* **Number.isInteger(x)** → check if integer
+
+  ```js
+  Number.isInteger(5);   // true
+  Number.isInteger(5.2); // false
+  ```
+
+* **Number.isNaN(x)** → check if value is `NaN`
+
+  ```js
+  Number.isNaN("abc");     // false
+  Number.isNaN(NaN);       // true
+  ```
+
+---
+
+## **3. Math Object**
+
+JavaScript has a built-in `Math` object for mathematical operations.
+
+### Common Math Properties:
+
+* `Math.PI` → 3.14159...
+* `Math.E`  → 2.718...
+
+### Common Math Methods:
+
+1. **Rounding**
+
+   ```js
+   Math.round(4.6); // 5
+   Math.ceil(4.1);  // 5 (always up)
+   Math.floor(4.9); // 4 (always down)
+   Math.trunc(4.7); // 4 (remove decimals)
+   ```
+
+2. **Powers & Roots**
+
+   ```js
+   Math.pow(2, 3);   // 8
+   Math.sqrt(16);    // 4
+   Math.cbrt(27);    // 3
+   ```
+
+3. **Min / Max**
+
+   ```js
+   Math.min(5, 2, 8); // 2
+   Math.max(5, 2, 8); // 8
+   ```
+
+4. **Random**
+
+   ```js
+   Math.random();          // between 0 and 1
+   Math.floor(Math.random() * 10) + 1; // between 1 and 10
+   ```
+
+5. **Absolute & Sign**
+
+   ```js
+   Math.abs(-7);   // 7
+   Math.sign(-5);  // -1
+   Math.sign(0);   // 0
+   Math.sign(10);  // 1
+   ```
+
+6. **Trigonometry**
+
+   ```js
+   Math.sin(Math.PI / 2); // 1
+   Math.cos(0);           // 1
+   Math.tan(Math.PI / 4); // 1
+   ```
+
+---
+
+✅ **Summary**
+
+* JS numbers = float by default.
+* Use `Number` methods for type checking & formatting.
+* Use `Math` object for advanced calculations (rounding, roots, random, trigonometry).
+
+---
+
+Do you want me to create **10 practice questions (with tricky cases like rounding, random ranges, NaN checks, etc.)** for this topic like I did for previous ones?

@@ -3,27 +3,27 @@ I’ll give you a **complete list of JavaScript topics** from **beginner → int
 
 ---
 
-## 🌱 Beginner (Fundamentals)
+*****## 🌱 Beginner (Fundamentals)
 
-1. Introduction to JavaScript
+//1. Introduction to JavaScript
 //2. Variables (`var`, `let`, `const`)
 //3. Data Types (string, number, boolean, null, undefined, symbol, bigint)
 //4. Operators (arithmetic, assignment, comparison, logical, ternary)
-5. Type Conversion (implicit & explicit)
+//5. Type Conversion (implicit & explicit)
 //6. Strings & Template Literals
-7. Numbers & Math functions
-8. Conditional Statements (`if`, `else`, `switch`)
-9. Loops (`for`, `while`, `do...while`, `for...of`, `for...in`)
-10. Functions (declaration, expression, arrow functions)
-11. Scope (global, function, block)
-12. Hoisting
-13. Strict Mode (`"use strict"`)
+//7. Numbers & Math functions
+//8. Conditional Statements (`if`, `else`, `switch`)
+//9. Loops (`for`, `while`, `do...while`, `for...of`, `for...in`)
+//10. Functions (declaration, expression, arrow functions)
+//11. Scope (global, function, block)
+//12. Hoisting
+//13. Strict Mode (`"use strict"`)
 
 ---
 
 ## 🛠️ Intermediate (Core Concepts)
 
-14. Arrays (methods: push, pop, map, filter, reduce, etc.)
+//14. Arrays (methods: push, pop, map, filter, reduce, etc.)
 15. Objects (creation, properties, methods)
 16. Object Destructuring & Array Destructuring
 17. Spread & Rest Operator (`...`)

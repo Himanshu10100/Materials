@@ -1,0 +1,109 @@
+Great 🚀 Let’s go step by step into **JavaScript Functions**.
+
+Functions are **blocks of reusable code** that can take input (parameters) and return output (values).
+
+---
+
+# 🔹 1. **Function Declaration**
+
+Classic way of defining a function.
+
+✅ Hoisted → You can call it **before** it is defined.
+
+```js
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+
+console.log(greet("John")); // Hello, John!
+```
+
+---
+
+# 🔹 2. **Function Expression**
+
+A function stored in a **variable**.
+
+⚠️ Not hoisted → must be defined before calling.
+
+```js
+const greet = function(name) {
+  return `Hello, ${name}!`;
+};
+
+console.log(greet("Alice")); // Hello, Alice!
+```
+
+---
+
+# 🔹 3. **Arrow Function (ES6)**
+
+A shorter syntax for functions.
+
+🚀 Benefits:
+
+* No `function` keyword
+* Implicit return (if one-line expression)
+* Does not bind its own `this` (lexical `this`)
+
+```js
+const greet = (name) => `Hello, ${name}!`;
+
+console.log(greet("Bob")); // Hello, Bob!
+```
+
+👉 If multiple lines, use `{}` and `return`:
+
+```js
+const add = (a, b) => {
+  let sum = a + b;
+  return sum;
+};
+console.log(add(5, 3)); // 8
+```
+
+---
+
+# 🔹 Differences
+
+| Feature            | Declaration       | Expression             | Arrow Function                 |
+| ------------------ | ----------------- | ---------------------- | ------------------------------ |
+| **Hoisting**       | ✅ Yes             | ❌ No                   | ❌ No                           |
+| **Syntax**         | Normal            | Assigned to var        | Short, `=>`                    |
+| **`this` binding** | Own `this`        | Own `this`             | ❌ Uses parent `this`           |
+| **Use case**       | General functions | When function as value | Short callbacks, array methods |
+
+---
+
+# 🔹 Example Usage
+
+```js
+// Function Declaration
+function square(n) {
+  return n * n;
+}
+
+// Function Expression
+const cube = function(n) {
+  return n * n * n;
+};
+
+// Arrow Function
+const double = n => n * 2;
+
+console.log(square(4)); // 16
+console.log(cube(3));   // 27
+console.log(double(5)); // 10
+```
+
+---
+
+✅ **Summary**
+
+* **Declaration** → hoisted, good for reusable named functions.
+* **Expression** → not hoisted, flexible to pass around.
+* **Arrow** → concise, best for callbacks (`map`, `filter`, `reduce`) and when `this` binding should come from parent.
+
+---
+
+👉 Do you want me to now prepare **10 practice questions with answers** on Functions (covering declaration, expression, and arrow)?

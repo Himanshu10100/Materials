@@ -1,0 +1,204 @@
+Great 🚀 Let’s explore **Hoisting in JavaScript** step by step.
+
+---
+
+# 🔹 What is Hoisting?
+
+**Hoisting** is JavaScript’s default behavior of **moving declarations to the top of their scope** (before code execution).
+👉 But **only declarations** are hoisted, **not initializations**.
+
+---
+
+# 1️⃣ **Hoisting with `var`**
+
+* Variables declared with `var` are **hoisted** to the top of their scope.
+* Their value is **initialized as `undefined`** until assigned.
+
+```js
+console.log(a); // ✅ undefined (not error, because hoisted)
+var a = 5;
+console.log(a); // 5
+```
+
+---
+
+# 2️⃣ **Hoisting with `let` and `const`**
+
+* `let` and `const` are also **hoisted**, but they stay in a **Temporal Dead Zone (TDZ)** until defined.
+* Accessing them before declaration throws a **ReferenceError**.
+
+```js
+// console.log(b); // ❌ ReferenceError
+let b = 10;
+
+const c = 20;
+console.log(c); // ✅ 20
+```
+
+---
+
+# 3️⃣ **Function Hoisting**
+
+* **Function Declarations** are hoisted **with their body**.
+  → Can call them before they are defined.
+
+```js
+sayHello(); // ✅ Works
+
+function sayHello() {
+  console.log("Hello!");
+}
+```
+
+* **Function Expressions (var, let, const)** are hoisted like variables.
+  → The variable is hoisted, but the function assignment is **not**.
+
+```js
+// greet(); ❌ TypeError (because greet is undefined at this point)
+var greet = function () {
+  console.log("Hi!");
+};
+```
+
+```js
+// greet(); ❌ ReferenceError (TDZ)
+let greet = function () {
+  console.log("Hi!");
+};
+```
+
+---
+
+# 4️⃣ **Class Hoisting**
+
+* Classes are **not hoisted** like functions.
+* You must declare a class **before using it**.
+
+```js
+// const obj = new MyClass(); ❌ ReferenceError
+class MyClass {}
+```
+
+---
+
+# 🔹 Summary Table
+
+| Keyword                           | Hoisted?          | Initial Value Before Declaration | Usable Before Declaration? |
+| --------------------------------- | ----------------- | -------------------------------- | -------------------------- |
+| `var`                             | ✅ Yes             | `undefined`                      | ✅ (but undefined)          |
+| `let`                             | ✅ Yes             | TDZ (no value)                   | ❌ ReferenceError           |
+| `const`                           | ✅ Yes             | TDZ (no value)                   | ❌ ReferenceError           |
+| Function Declaration              | ✅ Yes (with body) | Actual function                  | ✅                          |
+| Function Expression (`var`)       | ✅ Variable only   | `undefined`                      | ❌ TypeError                |
+| Function Expression (`let/const`) | ✅ Variable only   | TDZ                              | ❌ ReferenceError           |
+| Class                             | ❌ No              | —                                | ❌ ReferenceError           |
+
+---
+
+✅ **Key Takeaways**
+
+* Hoisting moves declarations to the top, but **not initializations**.
+* `var` is risky → leads to bugs due to undefined values.
+* Use `let` & `const` for block scope & safety.
+* Functions declared with `function` keyword are fully hoisted.
+
+---
+
+Would you like me to now create **10 Hoisting practice questions with answers** (like I did for operators)?
+
+Great follow-up 🚀 — let’s connect **Arrow Functions** with **Hoisting** in both **JavaScript** and **React**.
+
+---
+
+# 🔹 1. Hoisting Recap
+
+In JS:
+
+* **Function Declarations** are hoisted completely → you can call them before they’re defined.
+* **Variable Declarations (`var`)** are hoisted but initialized as `undefined`.
+* **`let` and `const`** are hoisted too, but they’re in the **Temporal Dead Zone (TDZ)** → you can’t use them before their line of code.
+
+---
+
+# 🔹 2. Arrow Functions and Hoisting in JavaScript
+
+👉 **Arrow functions are *not* hoisted like function declarations.**
+They behave like **function expressions**, meaning:
+
+* The **variable name** is hoisted (if declared with `var`), but not the function definition.
+* With `let` / `const`, you cannot access them before the line of definition.
+
+### Example 1 – Function Declaration vs Arrow Function
+
+```js
+// ✅ Works: function declaration is hoisted
+sayHello();
+function sayHello() {
+  console.log("Hello!");
+}
+
+// ❌ Error: Cannot access before initialization
+sayHi(); 
+const sayHi = () => {
+  console.log("Hi!");
+};
+```
+
+---
+
+### Example 2 – With `var`
+
+```js
+sayBye(); // ❌ TypeError: sayBye is not a function
+var sayBye = () => {
+  console.log("Bye!");
+};
+```
+
+➡️ Why? Because only `var sayBye` is hoisted as `undefined`.
+So `sayBye()` becomes `undefined()` → error.
+
+---
+
+# 🔹 3. Arrow Functions and Hoisting in React
+
+In **React**, arrow functions are often used inside components or hooks. Since they’re **expressions**, **they are not hoisted**.
+
+### Example – Event Handler
+
+```jsx
+function App() {
+  // ❌ Will throw ReferenceError if called before line of definition
+  // handleClick(); 
+
+  const handleClick = () => {
+    alert("Clicked!");
+  };
+
+  return <button onClick={handleClick}>Click Me</button>;
+}
+```
+
+⚡ **Key Point:**
+
+* In React, arrow functions are usually **defined inside the component body**, so hoisting doesn’t matter — they’re evaluated when the component renders.
+* If you **try to call them before definition inside the same function**, you’ll get a **ReferenceError**.
+
+---
+
+# 🔹 4. When it Matters
+
+* In **plain JS scripts**, hoisting differences matter a lot (you can call a declared function anywhere, but not arrow functions).
+* In **React**, since functions are usually inside components, you rarely call them before they’re defined → so hoisting issues don’t usually bite you.
+
+---
+
+✅ **Summary**
+
+* **JS**: Arrow functions are **not hoisted** → only their variable declaration is hoisted.
+* **React**: Arrow functions inside components are **evaluated at render time**; you can’t call them before definition.
+* Always define arrow functions before using them.
+
+---
+
+👉 Do you want me to also show **how hoisting works differently with arrow functions inside `useEffect` vs outside (global scope)**?

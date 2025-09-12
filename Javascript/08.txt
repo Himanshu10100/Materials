@@ -1,0 +1,125 @@
+Great 🔥 Let’s go step by step into **Conditional Statements in JavaScript**.
+
+---
+
+## **1. What are Conditional Statements?**
+
+Conditional statements allow your code to make **decisions** based on conditions (true/false).
+
+---
+
+## **2. `if` Statement**
+
+Runs a block of code if the condition is `true`.
+
+```js
+let age = 18;
+
+if (age >= 18) {
+  console.log("You are an adult");
+}
+```
+
+---
+
+## **3. `if...else`**
+
+Adds an alternative block if the condition is `false`.
+
+```js
+let age = 16;
+
+if (age >= 18) {
+  console.log("You are an adult");
+} else {
+  console.log("You are a minor");
+}
+```
+
+---
+
+## **4. `if...else if...else`**
+
+Multiple conditions checked one by one.
+
+```js
+let marks = 75;
+
+if (marks >= 90) {
+  console.log("Grade A");
+} else if (marks >= 60) {
+  console.log("Grade B");
+} else {
+  console.log("Grade C");
+}
+```
+
+---
+
+## **5. Nested `if`**
+
+An `if` inside another `if`.
+
+```js
+let user = "admin";
+let loggedIn = true;
+
+if (loggedIn) {
+  if (user === "admin") {
+    console.log("Welcome Admin");
+  }
+}
+```
+
+---
+
+## **6. `switch` Statement**
+
+Best for multiple conditions based on the same variable.
+
+```js
+let day = 3;
+
+switch (day) {
+  case 1:
+    console.log("Monday");
+    break;
+  case 2:
+    console.log("Tuesday");
+    break;
+  case 3:
+    console.log("Wednesday");
+    break;
+  default:
+    console.log("Invalid day");
+}
+```
+
+⚡ Notes:
+
+* Use `break;` to stop execution after a case.
+* If no `break`, JS does **fall-through** (executes next case too).
+
+---
+
+## **7. Ternary Operator (Short if/else)**
+
+Shortcut for simple conditions.
+
+```js
+let age = 20;
+let message = age >= 18 ? "Adult" : "Minor";
+console.log(message);
+```
+
+---
+
+✅ **Summary**
+
+* Use `if/else` when conditions are few or complex.
+* Use `switch` when checking **one variable against multiple values**.
+* Use `ternary` for short inline decisions.
+
+---
+
+Do you want me to prepare **10 practice questions (with answers)** for Conditional Statements just like we did for Operators and Type Conversion?
