@@ -1,0 +1,166 @@
+Perfect 👍 Let’s go step by step on **JavaScript Objects** (topic 15).
+
+---
+
+# 🔹 1. What is an Object in JS?
+
+* An **object** is a collection of **key-value pairs**.
+* Keys = properties (like `name`, `age`).
+* Values = can be anything (string, number, array, function, another object).
+
+👉 Think of it like a real object: A **car** has properties (`color`, `model`) and methods (`start()`, `stop()`).
+
+---
+
+# 🔹 2. Creating Objects
+
+There are several ways:
+
+### (1) Object literal (most common)
+
+```js
+const person = {
+  name: "John",
+  age: 25,
+  isStudent: true
+};
+```
+
+### (2) Using `new Object()`
+
+```js
+const person = new Object();
+person.name = "John";
+person.age = 25;
+```
+
+### (3) Constructor Function
+
+```js
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+const p1 = new Person("John", 25);
+```
+
+### (4) ES6 Class
+
+```js
+class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+}
+const p1 = new Person("John", 25);
+```
+
+---
+
+# 🔹 3. Properties
+
+* **Properties** are key-value pairs inside an object.
+
+```js
+const car = {
+  brand: "Toyota",
+  model: "Corolla",
+  year: 2022
+};
+```
+
+* **Accessing properties**:
+
+```js
+console.log(car.brand);      // dot notation → Toyota
+console.log(car["model"]);   // bracket notation → Corolla
+```
+
+* **Adding new property**:
+
+```js
+car.color = "red";
+```
+
+* **Deleting property**:
+
+```js
+delete car.year;
+```
+
+---
+
+# 🔹 4. Methods
+
+* A **method** is just a function inside an object.
+
+```js
+const person = {
+  name: "John",
+  age: 25,
+  greet: function() {
+    console.log("Hello, my name is " + this.name);
+  }
+};
+person.greet();  // "Hello, my name is John"
+```
+
+👉 `this` refers to the current object (`person` here).
+
+Shortcut (ES6):
+
+```js
+const person = {
+  name: "John",
+  greet() {
+    console.log(`Hi, I'm ${this.name}`);
+  }
+};
+```
+
+---
+
+# 🔹 5. Object Built-in Methods
+
+JS gives many helpful methods for objects:
+
+```js
+const user = { id: 1, name: "Alice", age: 20 };
+
+console.log(Object.keys(user));   // ["id", "name", "age"]
+console.log(Object.values(user)); // [1, "Alice", 20]
+console.log(Object.entries(user));// [["id",1],["name","Alice"],["age",20]]
+```
+
+---
+
+# 🔹 6. Example – Putting It All Together
+
+```js
+const book = {
+  title: "JavaScript Guide",
+  author: "Himanshu",
+  pages: 300,
+
+  // method
+  describe() {
+    return `${this.title} by ${this.author}, ${this.pages} pages.`;
+  }
+};
+
+console.log(book.title);       // "JavaScript Guide"
+console.log(book.describe());  // "JavaScript Guide by Himanshu, 300 pages."
+```
+
+---
+
+✅ **In short:**
+
+* **Object = container of properties + methods.**
+* Properties = describe data (like variables).
+* Methods = actions/functions inside objects.
+
+---
+
+👉 Do you want me to also explain **difference between Objects and Arrays** (since both hold multiple values but are used differently)?

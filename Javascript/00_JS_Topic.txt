@@ -24,8 +24,8 @@ I’ll give you a **complete list of JavaScript topics** from **beginner → int
 ## 🛠️ Intermediate (Core Concepts)
 
 //14. Arrays (methods: push, pop, map, filter, reduce, etc.)
-15. Objects (creation, properties, methods)
-16. Object Destructuring & Array Destructuring
+//15. Objects (creation, properties, methods)
+//16. Object Destructuring & Array Destructuring
 17. Spread & Rest Operator (`...`)
 18. Default Parameters
 19. Modules (`import`, `export`)
