@@ -1,0 +1,139 @@
+Great! Let’s go step by step with **Destructuring** in JavaScript.
+It’s a very powerful and common feature used in modern JS (and React).
+
+---
+
+## **16. Object Destructuring & Array Destructuring**
+
+### 🔹 What is Destructuring?
+
+Destructuring allows you to **extract values** from **objects** or **arrays** and store them in variables in a cleaner, shorter way.
+
+---
+
+## **1. Object Destructuring**
+
+Instead of accessing properties with `object.property`, we can "unpack" them directly.
+
+### Example:
+
+```js
+const user = {
+  name: "Himanshu",
+  age: 23,
+  role: "Developer"
+};
+
+// ✅ Without destructuring
+const name1 = user.name;
+const age1 = user.age;
+
+// ✅ With destructuring
+const { name, age, role } = user;
+
+console.log(name); // Himanshu
+console.log(age);  // 23
+console.log(role); // Developer
+```
+
+### 🔹 Renaming variables while destructuring
+
+```js
+const { name: userName, age: userAge } = user;
+console.log(userName); // Himanshu
+console.log(userAge);  // 23
+```
+
+### 🔹 Default values in destructuring
+
+```js
+const { country = "India" } = user;
+console.log(country); // India (default since user.country doesn’t exist)
+```
+
+---
+
+## **2. Array Destructuring**
+
+Arrays don’t have named keys, so destructuring works by **position**.
+
+### Example:
+
+```js
+const numbers = [10, 20, 30, 40];
+
+// ✅ Without destructuring
+const first = numbers[0];
+const second = numbers[1];
+
+// ✅ With destructuring
+const [a, b, c, d] = numbers;
+
+console.log(a); // 10
+console.log(b); // 20
+```
+
+### 🔹 Skipping elements
+
+```js
+const [x, , y] = numbers;
+console.log(x); // 10
+console.log(y); // 30
+```
+
+### 🔹 Default values in arrays
+
+```js
+const [p, q, r = 50] = [5, 15];
+console.log(p); // 5
+console.log(q); // 15
+console.log(r); // 50 (default)
+```
+
+---
+
+## **3. Nested Destructuring**
+
+You can destructure inside nested objects/arrays.
+
+```js
+const person = {
+  name: "Kamal",
+  address: {
+    city: "Ahmedabad",
+    pincode: 380001
+  }
+};
+
+// ✅ Nested object destructuring
+const { address: { city, pincode } } = person;
+console.log(city);    // Ahmedabad
+console.log(pincode); // 380001
+```
+
+---
+
+## **4. Function Parameters with Destructuring**
+
+A very common use in React.
+
+```js
+function printUser({ name, role }) {
+  console.log(`${name} is a ${role}`);
+}
+
+const user2 = { name: "Raj", role: "SDE1" };
+printUser(user2); // Raj is a SDE1
+```
+
+---
+
+## ⚡ Why use Destructuring?
+
+✔ Cleaner & shorter code
+✔ Easy to extract values from objects/arrays
+✔ Common in modern JS frameworks (React, Node.js)
+
+---
+
+👉 Do you want me to also show **real-world React examples** of destructuring (props, useState hooks, etc.)?
