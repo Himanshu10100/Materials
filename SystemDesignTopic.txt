@@ -1,0 +1,143 @@
+# 📚 **System Design Topics (Step by Step)**
+
+### 1. **Foundations**
+
+* Scalability basics (vertical vs horizontal scaling)
+* Latency vs throughput
+* CAP theorem (Consistency, Availability, Partition tolerance)
+* ACID vs BASE
+
+---
+
+### 2. **Networking & Communication**
+
+* DNS, IP, Load balancer basics
+* HTTP/HTTPS, REST vs gRPC
+* WebSockets, Long polling, SSE (Server-Sent Events)
+* CDN (Content Delivery Network)
+
+---
+
+### 3. **Databases**
+
+* SQL vs NoSQL
+* Indexing, Partitioning, Sharding
+* Replication (Master-slave, Multi-leader)
+* Transactions (ACID), Isolation levels
+* Caching in DB (query optimization)
+
+---
+
+### 4. **Caching**
+
+* Client-side vs Server-side caching
+* CDN cache
+* Redis / Memcached
+* Cache eviction policies (LRU, LFU, FIFO)
+* Cache consistency & invalidation
+
+---
+
+### 5. **Storage & File Systems**
+
+* Object storage (S3, GCS)
+* Blob storage
+* Distributed File Systems (HDFS, Ceph)
+* Block storage vs File storage
+
+---
+
+### 6. **Message Queues & Streaming**
+
+* Message queues (Kafka, RabbitMQ, SQS)
+* Pub/Sub systems
+* Event-driven architecture
+* Stream processing (Apache Kafka Streams, Flink, Spark Streaming)
+
+---
+
+### 7. **System Components**
+
+* Load Balancers (L4 vs L7)
+* Reverse proxy (NGINX, HAProxy)
+* API Gateway
+* Rate limiting, Throttling
+* Service discovery
+
+---
+
+### 8. **Microservices & Architecture**
+
+* Monolith vs Microservices
+* Service-to-service communication
+* Circuit breaker pattern
+* Saga pattern (for distributed transactions)
+* Sidecar pattern (Service mesh: Istio/Envoy)
+
+---
+
+### 9. **Search & Indexing**
+
+* Search engines (Elasticsearch, Solr)
+* Inverted index
+* Full-text search
+* Autocomplete systems
+
+---
+
+### 10. **Scalability & Availability**
+
+* Horizontal scaling (stateless services)
+* Replication strategies
+* Data consistency (strong vs eventual)
+* Leader election (Raft, Paxos basics)
+
+---
+
+### 11. **Observability & Reliability**
+
+* Logging (ELK stack)
+* Metrics (Prometheus, Grafana)
+* Monitoring, Alerting
+* Distributed tracing (Jaeger, Zipkin)
+* SLAs, SLOs, SLIs
+
+---
+
+### 12. **Security**
+
+* Authentication (OAuth, JWT, SSO)
+* Authorization (RBAC, ABAC)
+* HTTPS, TLS, Certificates
+* Hashing & Encryption (bcrypt, AES)
+* API rate limiting for security
+
+---
+
+### 13. **Design Patterns in System Design**
+
+* Singleton, Factory, Observer (basic OOP patterns)
+* CQRS (Command Query Responsibility Segregation)
+* Event Sourcing
+* Sharding pattern
+* Retry & Backoff
+
+---
+
+### 14. **Case Studies (End-to-End Designs)**
+
+* URL Shortener (Bit.ly)
+* Tiny Google Drive (File Storage system)
+* WhatsApp / Messenger (Chat app)
+* Instagram / Twitter feed system
+* Netflix / YouTube (Video streaming)
+* Uber / Ola (Ride sharing system)
+* Amazon Shopping Cart & Order system
+
+---
+
+👉 If you go through **1 → 14 in order**, you’ll build a rock-solid system design base.
+
+---
+
+Do you want me to create a **6-month plan** where I assign which topics to cover each month (with practice projects)? That way you’ll not just read but also *apply* system design step by step.

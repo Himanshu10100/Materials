@@ -109,3 +109,67 @@ vector<pair<pair<int, int>, int>> calculatePrimsMST(int n, int m, vector<pair<pa
 
     return result;
 }
+
+/*
+using PQ: TC: O(ElogV)  SC: O(E) + O(V)
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<pair<pair<int, int>, int>> calculatePrimsMST(int n, int m, vector<pair<pair<int, int>, int>> &g)
+{
+    unordered_map<int, list<pair<int, int>>> adj;
+
+    // Build adjacency list
+    for (auto &edge : g)
+    {
+        int u = edge.first.first;
+        int v = edge.first.second;
+        int w = edge.second;
+
+        adj[u].push_back({v, w});
+        adj[v].push_back({u, w});
+    }
+
+    vector<int> key(n + 1, INT_MAX);
+    vector<int> parent(n + 1, -1);
+    vector<bool> mst(n + 1, false);
+
+    // Min-heap : (weight, node)
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+
+    key[1] = 0;
+    pq.push({0, 1}); // (weight, node)
+
+    while (!pq.empty())
+    {
+        int u = pq.top().second;
+        pq.pop();
+
+        if (mst[u]) continue; // already included
+        mst[u] = true;
+
+        // Explore neighbors
+        for (auto it : adj[u])
+        {
+            int v = it.first;
+            int w = it.second;
+            if (!mst[v] && w < key[v])
+            {
+                parent[v] = u;
+                key[v] = w;
+                pq.push({key[v], v});
+            }
+        }
+    }
+
+    // Prepare result
+    vector<pair<pair<int, int>, int>> result;
+    for (int i = 2; i <= n; i++)
+    {
+        result.push_back({{parent[i], i}, key[i]});
+    }
+
+    return result;
+}
+
+*/

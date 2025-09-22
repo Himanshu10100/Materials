@@ -1,0 +1,113 @@
+Got it, Himanshu 👍
+Thanks for sharing openly — you already have a solid foundation (MERN + MySQL + POS project experience + internship + now working as SDE-1). The next 2–5 years can shape your career very well if you’re structured. Let’s break this down into **roadmap + skills + habits + leadership**.
+
+---
+
+## 🎯 2-Year Roadmap (SDE-1 ➝ SDE-II at Big Tech)
+
+You have 2 hours/day → \~15 hrs/week → \~700 hrs/year. That’s enough if used well.
+
+---
+
+### 1. **Core CS & Problem Solving (50%)**
+
+Big Tech interviews = **DSA + System Design**.
+
+* **DSA:**
+
+  * Finish **Graphs & DP** thoroughly (LeetCode medium/hard).
+  * Then move to **advanced topics** → Tries, Segment Trees, Bitmasking, Union-Find, Heaps.
+  * Daily practice → 2–3 problems (LeetCode, Codeforces).
+  * Track patterns (sliding window, binary search on answer, monotonic stack, etc.).
+
+* **System Design:**
+
+  * Start with **Low-level design (LLD):** OOP, design patterns, SOLID, UML diagrams.
+  * Then move to **High-level design (HLD):** caching, load balancing, databases, queues, sharding, CAP theorem.
+  * Build small system design notes with diagrams (e.g., "Design URL Shortener", "Design Instagram").
+  * Resources: *Grokking the System Design Interview*, *System Design Primer (GitHub)*.
+
+---
+
+### 2. **Backend & Advanced Tech (25%)**
+
+Big tech expects **scalable systems knowledge**:
+
+* **Databases:** Advanced SQL, indexing, query optimization, transactions.
+* **Scalable Backend:** Learn Redis, Kafka/RabbitMQ, microservices basics.
+* **Cloud:** AWS/GCP basics (EC2, S3, RDS, Lambda, IAM).
+* **DevOps:** You already know Docker & CI/CD → add Kubernetes (k8s).
+* **Testing:** Unit + integration testing (Jest, Mocha, PyTest).
+
+---
+
+### 3. **Communication & Leadership (15%)**
+
+Your weakness = **English + patience** → this will directly affect interviews & leadership.
+
+* Daily **30 mins English practice** (watch tech talks, summarize in English, write LinkedIn posts).
+* Do **mock interviews** (Pramp, friends, peers).
+* Start mentoring juniors in your current company → builds leadership.
+* Practice explaining code/system as if teaching → builds patience + clarity.
+
+---
+
+### 4. **Projects & Visibility (10%)**
+
+* Convert your POS/ecommerce work into **scalable open-source projects**.
+* Build 1–2 **system design showcase projects** (e.g., chat app with WebSockets + Redis, or scalable notification service).
+* Share learnings on GitHub & LinkedIn → recruiters notice consistency.
+
+---
+
+## 🏆 5-Year Goal (SDE-III + Leadership)
+
+By year 5, you should target **Staff Engineer or Tech Lead track**.
+That requires:
+
+1. **Deep technical expertise** (scalable backend + architecture).
+2. **Strong communication & leadership** (mentorship, code reviews, guiding team).
+3. **Cross-functional ability** (working with Product, QA, DevOps).
+
+So in years 3–5:
+
+* Lead small modules/projects at work.
+* Mentor 1–2 juniors consistently.
+* Improve decision-making (trade-offs, performance vs. cost).
+* Public presence → blogs, talks, open-source.
+
+---
+
+## 📅 Daily/Weekly Study Plan (2 hrs/day)
+
+**Daily:**
+
+* 1 hr → DSA/Problem-solving.
+* 30 min → System Design/CS fundamentals.
+* 30 min → Communication (English, explaining concepts, mock interview).
+
+**Weekly:**
+
+* 3–4 hrs weekend → Advanced backend/Cloud/DevOps projects.
+
+---
+
+## 🚀 Extra Habits
+
+* **Patience:** Practice debugging without rushing. Take breaks during stuck problems.
+* **Focus:** Use Pomodoro (25–5 rule).
+* **Networking:** Connect with engineers on LinkedIn, attend meetups.
+* **Interview prep timeline:** Start mock interviews \~6 months before applying.
+
+---
+
+✅ Summary for you, Himanshu:
+
+1. Next 2 years → **DSA + System Design + Advanced Backend + Communication.**
+2. Build **realistic scalable projects** & publish them.
+3. Improve English daily, and mentor others for leadership.
+4. By 5 years → aim for **Tech Lead** level.
+
+---
+
+Would you like me to make a **month-by-month roadmap (next 6 months)** so you can start tracking progress step by step?
