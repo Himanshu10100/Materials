@@ -26,10 +26,10 @@ I’ll give you a **complete list of JavaScript topics** from **beginner → int
 //14. Arrays (methods: push, pop, map, filter, reduce, etc.)
 //15. Objects (creation, properties, methods)
 //16. Object Destructuring & Array Destructuring
-17. Spread & Rest Operator (`...`)
-18. Default Parameters
-19. Modules (`import`, `export`)
-20. DOM Manipulation (selectors, events, styles, attributes)
+//17. Spread & Rest Operator (`...`)
+//18. Default Parameters
+//19. Modules (`import`, `export`)
+//20. DOM Manipulation (selectors, events, styles, attributes)
 21. Event Handling (`addEventListener`, bubbling, delegation)
 22. Timers (`setTimeout`, `setInterval`)
 23. JSON (parse, stringify)

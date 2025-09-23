@@ -1,0 +1,159 @@
+Sure! Let's dive into:
+
+---
+
+## 🔹 18. Default Parameters in JavaScript
+
+### ✅ What are Default Parameters?
+
+**Default parameters** allow you to **set default values** for function parameters in case **no value is provided** (or the value is `undefined`) when the function is called.
+
+---
+
+### 📌 Syntax:
+
+```javascript
+function functionName(param1 = defaultValue1, param2 = defaultValue2) {
+  // function body
+}
+```
+
+If a value is passed during the call, it **overrides** the default.
+
+---
+
+### 🧠 Why Use Default Parameters?
+
+Without default parameters, you'd have to manually check for `undefined`:
+
+```js
+function greet(name) {
+  name = name || 'Guest'; // older way
+  console.log(`Hello, ${name}`);
+}
+```
+
+With default parameters (ES6+):
+
+```js
+function greet(name = 'Guest') {
+  console.log(`Hello, ${name}`);
+}
+```
+
+---
+
+### ✅ Examples
+
+#### 🔸 Basic Example
+
+```js
+function sayHi(name = "Guest") {
+  console.log("Hi, " + name);
+}
+
+sayHi("Alice"); // Hi, Alice
+sayHi();        // Hi, Guest
+```
+
+#### 🔸 Multiple Default Parameters
+
+```js
+function multiply(a = 1, b = 2) {
+  return a * b;
+}
+
+console.log(multiply(3, 4)); // 12
+console.log(multiply(3));    // 3 * 2 = 6
+console.log(multiply());     // 1 * 2 = 2
+```
+
+#### 🔸 Default Parameters with Expressions
+
+```js
+function welcome(name = "User", message = `Welcome, ${name}!`) {
+  console.log(message);
+}
+
+welcome();            // Welcome, User!
+welcome("Sarah");     // Welcome, Sarah!
+```
+
+> ✅ Parameters can depend on earlier parameters.
+
+---
+
+### ⚠️ Important Notes
+
+1. **Only `undefined` triggers the default**:
+
+   ```js
+   function test(x = 10) {
+     console.log(x);
+   }
+
+   test(undefined); // 10
+   test(null);      // null (default not used)
+   test(0);         // 0 (default not used)
+   ```
+
+2. **Default parameters are only evaluated when needed**:
+
+   ```js
+   function getValue() {
+     console.log("getValue() called");
+     return 42;
+   }
+
+   function demo(x = getValue()) {
+     console.log(x);
+   }
+
+   demo(10); // 10
+   demo();   // getValue() called \n 42
+   ```
+
+3. **Default parameter position matters**:
+   Default parameters should generally be placed at the **end**, or else you'll need to explicitly pass `undefined`:
+
+   ```js
+   function demo(x = 1, y) {
+     console.log(x, y);
+   }
+
+   demo(5);         // x=5, y=undefined
+   demo(undefined, 3); // x=1, y=3
+   ```
+
+---
+
+### 🧪 Real-World Example
+
+#### Function with optional configuration:
+
+```js
+function createUser(name = "Anonymous", age = 18, isAdmin = false) {
+  return { name, age, isAdmin };
+}
+
+console.log(createUser()); 
+// { name: 'Anonymous', age: 18, isAdmin: false }
+
+console.log(createUser("Alice", 25)); 
+// { name: 'Alice', age: 25, isAdmin: false }
+```
+
+---
+
+## 🔁 Summary
+
+| Feature          | Explanation                                    |
+| ---------------- | ---------------------------------------------- |
+| Purpose          | Set fallback values for function parameters    |
+| Syntax           | `function fn(param = defaultValue)`            |
+| When it triggers | When the argument is `undefined` or not passed |
+| Introduced in    | ES6 (ECMAScript 2015)                          |
+
+---
+
+Would you like a small **quiz**, **diagram**, or **code challenge** on this topic next?

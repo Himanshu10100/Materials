@@ -1,0 +1,197 @@
+Absolutely! Let’s break down:
+
+---
+
+## 🔹 20. **DOM Manipulation** in JavaScript
+
+### ✅ What is the DOM?
+
+**DOM** stands for **Document Object Model** — it’s a programming interface that represents the structure of an HTML document as a **tree of objects (nodes)**.
+
+JavaScript uses the DOM to:
+
+* Access and modify content
+* Respond to user interactions
+* Change styles or structure dynamically
+
+---
+
+## 📚 Key Concepts in DOM Manipulation
+
+We'll cover these four core areas:
+
+### 1. **Selectors**
+
+### 2. **Events**
+
+### 3. **Styles**
+
+### 4. **Attributes**
+
+---
+
+## 1️⃣ DOM **Selectors**
+
+Selectors are used to **access elements** from the HTML.
+
+### 🔹 Common Methods:
+
+| Method                              | Description                                        |
+| ----------------------------------- | -------------------------------------------------- |
+| `document.getElementById()`         | Selects element by ID                              |
+| `document.getElementsByClassName()` | Selects elements by class (returns HTMLCollection) |
+| `document.getElementsByTagName()`   | Selects by tag (returns HTMLCollection)            |
+| `document.querySelector()`          | Selects **first match** (CSS-style)                |
+| `document.querySelectorAll()`       | Selects **all matches** (NodeList)                 |
+
+### 🔸 Example:
+
+```html
+<div id="myDiv" class="box">Hello</div>
+```
+
+```js
+const el1 = document.getElementById("myDiv");
+const el2 = document.querySelector(".box"); // first with class 'box'
+```
+
+---
+
+## 2️⃣ DOM **Events**
+
+Events let you run JS code in response to **user actions** (click, hover, input, etc.).
+
+### 🔹 Common Events:
+
+| Event       | Triggered when...            |
+| ----------- | ---------------------------- |
+| `click`     | Element is clicked           |
+| `mouseover` | Mouse hovers over an element |
+| `keyup`     | Key is released              |
+| `submit`    | Form is submitted            |
+| `input`     | Input field changes          |
+
+### 🔸 Syntax:
+
+```js
+element.addEventListener("event", callback);
+```
+
+### 🔸 Example:
+
+```js
+const button = document.querySelector("#myBtn");
+
+button.addEventListener("click", () => {
+  alert("Button clicked!");
+});
+```
+
+---
+
+## 3️⃣ DOM **Styles**
+
+You can dynamically **change CSS styles** using JS.
+
+### 🔹 Syntax:
+
+```js
+element.style.property = "value";
+```
+
+> Use camelCase for multi-word properties (`backgroundColor`, not `background-color`)
+
+### 🔸 Example:
+
+```js
+const box = document.querySelector(".box");
+box.style.backgroundColor = "lightblue";
+box.style.fontSize = "20px";
+```
+
+> ✅ For complex styling, it's better to add/remove **CSS classes**:
+
+```js
+box.classList.add("active");
+box.classList.remove("hidden");
+```
+
+---
+
+## 4️⃣ DOM **Attributes**
+
+You can **get, set, check, or remove** attributes of an HTML element.
+
+### 🔹 Common Methods:
+
+| Method                    | Use                            |
+| ------------------------- | ------------------------------ |
+| `getAttribute(name)`      | Gets the value of an attribute |
+| `setAttribute(name, val)` | Sets an attribute              |
+| `removeAttribute(name)`   | Removes an attribute           |
+| `hasAttribute(name)`      | Checks if attribute exists     |
+
+### 🔸 Example:
+
+```js
+const link = document.querySelector("a");
+
+// Get href
+console.log(link.getAttribute("href"));
+
+// Set new href
+link.setAttribute("href", "https://openai.com");
+
+// Remove attribute
+link.removeAttribute("target");
+
+// Check if attribute exists
+console.log(link.hasAttribute("href")); // true
+```
+
+---
+
+## 🧪 Practical Example: DOM in Action
+
+```html
+<button id="changeTextBtn">Click Me</button>
+<p id="output">Original text</p>
+```
+
+```js
+const btn = document.getElementById("changeTextBtn");
+const output = document.getElementById("output");
+
+btn.addEventListener("click", () => {
+  output.textContent = "You clicked the button!";
+  output.style.color = "green";
+});
+```
+
+---
+
+## 🧠 Summary Table
+
+| Feature       | Method(s) / Property                                       |
+| ------------- | ---------------------------------------------------------- |
+| **Select**    | `getElementById`, `querySelector`, etc.                    |
+| **Event**     | `addEventListener('click', fn)`                            |
+| **Style**     | `element.style.property = value`<br>`classList.add/remove` |
+| **Attribute** | `getAttribute`, `setAttribute`, etc.                       |
+
+---
+
+## 🧩 Bonus: Useful DOM Properties
+
+| Property        | Description                      |
+| --------------- | -------------------------------- |
+| `textContent`   | Gets/sets text inside an element |
+| `innerHTML`     | Gets/sets HTML inside an element |
+| `value`         | Value of form inputs             |
+| `classList`     | Add/remove/toggle CSS classes    |
+| `parentElement` | Get parent of an element         |
+| `children`      | Get child elements               |
+
+---
+
+Would you like a **mini-project** (like a to-do app or form validator) to practice DOM manipulation?

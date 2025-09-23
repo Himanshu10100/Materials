@@ -35,7 +35,7 @@ vector<int> dijkstra(vector<vector<int>> &vec, int n, int e, int src)
         int nodeDist = top.first;
         int node = top.second;
 
-        // remoce that pair
+        // remove that pair
         st.erase(st.begin());
 
         // traversal to all neighbor of node
