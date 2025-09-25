@@ -1,0 +1,115 @@
+Sure! Here's a clear explanation of **Timers in JavaScript**, focusing on `setTimeout` and `setInterval`.
+
+---
+
+## ✅ 22. Timers (`setTimeout`, `setInterval`)
+
+JavaScript provides **timers** to delay or repeatedly execute functions **asynchronously** (after a certain amount of time).
+
+---
+
+### 🔹 `setTimeout()`
+
+**Runs a function once** after a specified delay (in milliseconds).
+
+#### ✅ Syntax:
+
+```javascript
+setTimeout(callback, delay, arg1, arg2, ...);
+```
+
+* `callback`: Function to run.
+* `delay`: Time in milliseconds before the function runs.
+* Additional args: Passed to the callback when it runs.
+
+#### ✅ Example:
+
+```javascript
+setTimeout(() => {
+  console.log("Runs after 2 seconds");
+}, 2000);
+```
+
+#### 🛑 Clearing Timeout:
+
+```javascript
+const timerId = setTimeout(() => {
+  console.log("Will not run");
+}, 3000);
+
+clearTimeout(timerId); // Cancels it
+```
+
+---
+
+### 🔹 `setInterval()`
+
+**Runs a function repeatedly** with a fixed time delay between each call.
+
+#### ✅ Syntax:
+
+```javascript
+setInterval(callback, interval, arg1, arg2, ...);
+```
+
+* `interval`: Time in ms between executions.
+
+#### ✅ Example:
+
+```javascript
+setInterval(() => {
+  console.log("Runs every 1 second");
+}, 1000);
+```
+
+#### 🛑 Clearing Interval:
+
+```javascript
+const intervalId = setInterval(() => {
+  console.log("This will be stopped");
+}, 1000);
+
+setTimeout(() => {
+  clearInterval(intervalId); // Stops the interval after 5 seconds
+}, 5000);
+```
+
+---
+
+## ⚠️ Important Notes
+
+* Timers are **not guaranteed to run exactly on time** — they are affected by the **event loop**, browser tab focus, CPU load, etc.
+* `setTimeout` with `0ms` delay still waits until the **call stack is clear** (async behavior).
+
+#### Example:
+
+```javascript
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Timeout callback");
+}, 0);
+
+console.log("End");
+```
+
+**Output:**
+
+```
+Start
+End
+Timeout callback
+```
+
+---
+
+## ✅ Summary Table
+
+| Function      | Description                        | Cancel With       |
+| ------------- | ---------------------------------- | ----------------- |
+| `setTimeout`  | Runs once after a delay            | `clearTimeout()`  |
+| `setInterval` | Runs repeatedly at fixed intervals | `clearInterval()` |
+
+---
+
+Let me know if you’d like a visual example (e.g. countdown timer or clock) using these!

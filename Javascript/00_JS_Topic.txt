@@ -21,7 +21,7 @@ I’ll give you a **complete list of JavaScript topics** from **beginner → int
 
 ---
 
-## 🛠️ Intermediate (Core Concepts)
+*****## 🛠️ Intermediate (Core Concepts)
 
 //14. Arrays (methods: push, pop, map, filter, reduce, etc.)
 //15. Objects (creation, properties, methods)
@@ -30,11 +30,11 @@ I’ll give you a **complete list of JavaScript topics** from **beginner → int
 //18. Default Parameters
 //19. Modules (`import`, `export`)
 //20. DOM Manipulation (selectors, events, styles, attributes)
-21. Event Handling (`addEventListener`, bubbling, delegation)
-22. Timers (`setTimeout`, `setInterval`)
-23. JSON (parse, stringify)
-24. Error Handling (`try`, `catch`, `finally`, `throw`)
-25. ES6+ Features (let/const, arrow functions, template literals, etc.)
+//21. Event Handling (`addEventListener`, bubbling, delegation)
+//22. Timers (`setTimeout`, `setInterval`)
+//23. JSON (parse, stringify)
+//24. Error Handling (`try`, `catch`, `finally`, `throw`)
+//25. ES6+ Features (let/const, arrow functions, template literals, etc.)
 
 ---
 

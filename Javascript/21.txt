@@ -1,0 +1,122 @@
+Sure! Here's a clear breakdown of **event handling in JavaScript**, especially focusing on `addEventListener`, **event bubbling**, and **event delegation**:
+
+---
+
+## **1. `addEventListener`**
+
+### ✅ What it is:
+
+The `addEventListener` method attaches an event handler to a DOM element.
+
+### ✅ Syntax:
+
+```javascript
+element.addEventListener(event, callback, useCapture);
+```
+
+* `event`: The name of the event (e.g., `"click"`, `"submit"`, `"keydown"`).
+* `callback`: The function to run when the event happens.
+* `useCapture` *(optional)*: Boolean value (default is `false`). Explains whether the event should be handled in the **capture** or **bubble** phase.
+
+### ✅ Example:
+
+```javascript
+document.getElementById('btn').addEventListener('click', function() {
+  alert('Button clicked!');
+});
+```
+
+---
+
+## **2. Event Bubbling (vs Capturing)**
+
+### 🧠 DOM Event Phases:
+
+When an event occurs, it goes through **three phases**:
+
+1. **Capturing Phase**: From the root down to the target element.
+2. **Target Phase**: The event hits the actual element.
+3. **Bubbling Phase**: The event bubbles up from the target back to the root.
+
+### 📦 Bubbling (Default behavior):
+
+Events are first captured down to the element, and then bubble back up. By default, `addEventListener` listens during the **bubbling** phase (`useCapture = false`).
+
+### 🔍 Example:
+
+```html
+<div id="outer">
+  <button id="inner">Click me</button>
+</div>
+```
+
+```javascript
+document.getElementById('outer').addEventListener('click', () => {
+  console.log('Outer clicked');
+});
+
+document.getElementById('inner').addEventListener('click', () => {
+  console.log('Inner clicked');
+});
+```
+
+Clicking the button prints:
+
+```
+Inner clicked
+Outer clicked
+```
+
+Because the event **bubbles up** from the inner button to the outer `div`.
+
+---
+
+## **3. Event Delegation**
+
+### ✅ What it is:
+
+**Event delegation** is a technique where a **parent** element handles events for its **children**, by taking advantage of **event bubbling**.
+
+### ✅ Why use it?
+
+* Better performance with many elements.
+* Automatically works for dynamically added children.
+
+### ✅ How it works:
+
+Attach the listener to a common ancestor, and use `event.target` to check which child triggered the event.
+
+### ✅ Example:
+
+```html
+<ul id="list">
+  <li>Item 1</li>
+  <li>Item 2</li>
+  <li>Item 3</li>
+</ul>
+```
+
+```javascript
+document.getElementById('list').addEventListener('click', function(event) {
+  if (event.target.tagName === 'LI') {
+    alert('You clicked on ' + event.target.textContent);
+  }
+});
+```
+
+This will work even if you **add more `<li>` elements dynamically** later.
+
+---
+
+## Summary Table
+
+| Concept            | Description                                   |
+| ------------------ | --------------------------------------------- |
+| `addEventListener` | Attaches an event listener to an element      |
+| Bubbling           | Event travels **up** from target to ancestors |
+| Capturing          | Event travels **down** from root to target    |
+| Event Delegation   | Using a parent to handle events for children  |
+
+---
+
+Let me know if you'd like a visual diagram or a real-world analogy!

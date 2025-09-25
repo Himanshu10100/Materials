@@ -1,0 +1,119 @@
+Absolutely! Let’s break down **JSON** in JavaScript — specifically the use of `JSON.parse` and `JSON.stringify`.
+
+---
+
+## ✅ 23. JSON (`parse`, `stringify`)
+
+### 📌 What is JSON?
+
+**JSON** stands for **JavaScript Object Notation**.
+It’s a **text-based format** used to represent structured data — commonly used for **data exchange** between a client and a server (like with APIs).
+
+---
+
+## 🔹 `JSON.stringify()`
+
+### ✅ Purpose:
+
+Converts a **JavaScript object or array** into a **JSON string**.
+
+### ✅ Syntax:
+
+```javascript
+JSON.stringify(value, replacer, space);
+```
+
+* `value`: The object/array to convert.
+* `replacer` *(optional)*: Function or array to filter properties.
+* `space` *(optional)*: Adds indentation for readability (e.g., 2).
+
+### ✅ Example:
+
+```javascript
+const user = {
+  name: "Alice",
+  age: 25
+};
+
+const jsonString = JSON.stringify(user);
+console.log(jsonString);  // '{"name":"Alice","age":25}'
+```
+
+### ✅ Pretty-Printed JSON:
+
+```javascript
+console.log(JSON.stringify(user, null, 2));
+/*
+{
+  "name": "Alice",
+  "age": 25
+}
+*/
+```
+
+---
+
+## 🔹 `JSON.parse()`
+
+### ✅ Purpose:
+
+Converts a **JSON string** into a **JavaScript object or array**.
+
+### ✅ Syntax:
+
+```javascript
+JSON.parse(jsonString, reviver);
+```
+
+* `jsonString`: The string to parse.
+* `reviver` *(optional)*: Function to transform the resulting object.
+
+### ✅ Example:
+
+```javascript
+const jsonString = '{"name":"Alice","age":25}';
+const user = JSON.parse(jsonString);
+console.log(user.name); // Alice
+```
+
+### ❌ Invalid JSON:
+
+```javascript
+JSON.parse("{name: 'Alice'}"); // ❌ Error: Invalid JSON format
+```
+
+Keys must be **in double quotes**, and strings must use **double quotes**, not single quotes.
+
+---
+
+## 🔁 Round-Trip Example
+
+```javascript
+const original = { language: "JavaScript", level: "Advanced" };
+
+const json = JSON.stringify(original); // → Convert to JSON string
+const parsed = JSON.parse(json);       // → Back to object
+
+console.log(parsed); // { language: 'JavaScript', level: 'Advanced' }
+```
+
+---
+
+## ✅ Summary Table
+
+| Function           | Description                     |
+| ------------------ | ------------------------------- |
+| `JSON.stringify()` | JavaScript object → JSON string |
+| `JSON.parse()`     | JSON string → JavaScript object |
+
+---
+
+## ⚠️ Common Gotchas
+
+* JSON **can’t store functions** or special object types (like `Date`, `Map`, `Set`).
+* `undefined` values are **ignored** in `JSON.stringify`.
+* Only works with **valid JSON format**.
+
+---
+
+Let me know if you'd like a JSON-related real-world use case (like API response handling)!
