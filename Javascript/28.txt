@@ -1,0 +1,121 @@
+Great 👍 Let’s dive into **Callbacks** in JavaScript.
+
+---
+
+## 🔹 What is a Callback?
+
+A **callback** is simply a **function passed as an argument to another function**, which will be **called later** once some task is done.
+
+👉 In short:
+
+> A callback is "call me back later when you’re done".
+
+---
+
+## 🔹 Example 1 – Basic Callback
+
+```js
+function greet(name, callback) {
+  console.log("Hello, " + name);
+  callback();
+}
+
+function afterGreeting() {
+  console.log("Nice to meet you!");
+}
+
+greet("Himanshu", afterGreeting);
+```
+
+✅ Output:
+
+```
+Hello, Himanshu
+Nice to meet you!
+```
+
+* `afterGreeting` is passed as a callback to `greet`.
+* `greet` calls it after finishing its own work.
+
+---
+
+## 🔹 Example 2 – Callbacks with Asynchronous Code
+
+Callbacks are very common with **async operations** like `setTimeout`, `fetch`, or database queries.
+
+```js
+console.log("Start");
+
+setTimeout(() => {
+  console.log("This runs after 2 seconds");
+}, 2000);
+
+console.log("End");
+```
+
+✅ Output:
+
+```
+Start
+End
+This runs after 2 seconds
+```
+
+Here, the arrow function is a **callback** that runs **after 2s**.
+
+---
+
+## 🔹 Example 3 – Custom Async Callback
+
+```js
+function fetchData(callback) {
+  console.log("Fetching data...");
+  setTimeout(() => {
+    callback("Here is your data!");
+  }, 1500);
+}
+
+fetchData((data) => {
+  console.log("Received:", data);
+});
+```
+
+✅ Output:
+
+```
+Fetching data...
+Received: Here is your data!
+```
+
+---
+
+## 🔹 Example 4 – Callback Hell (The Problem)
+
+When you have many async operations **dependent on each other**, callbacks can get **nested** and messy:
+
+```js
+getUser(1, (user) => {
+  getPosts(user.id, (posts) => {
+    getComments(posts[0].id, (comments) => {
+      console.log("First comment:", comments[0]);
+    });
+  });
+});
+```
+
+😵 This is called **“Callback Hell”** → hard to read and maintain.
+
+---
+
+## 🔹 Why Callbacks Are Important
+
+1. Handle async operations (timers, API requests, file reading).
+2. Pass logic into reusable functions.
+3. Foundation for **Promises** and **async/await** (modern solutions).
+
+---
+
+✅ In interviews, a callback is often defined as:
+**“A callback is a function passed as an argument to another function, which is executed after the completion of that function’s operation.”**
+
+---

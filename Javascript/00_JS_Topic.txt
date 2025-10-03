@@ -41,8 +41,8 @@ I’ll give you a **complete list of JavaScript topics** from **beginner → int
 ## 🚀 Advanced (Deep Dive)
 
 //26. `this` keyword
-27. Closures
-28. Callbacks
+//27. Closures
+//28. Callbacks
 29. Promises
 30. Async / Await
 31. Synchronous vs Asynchronous Execution

@@ -1,0 +1,129 @@
+## 🔹 What is a Closure?
+
+A **closure** is created when a function "remembers" the variables from the place where it was created, even after that outer function has finished executing.
+
+👉 In simple terms:
+
+> **A closure gives you access to an outer function’s scope from an inner function.**
+
+---
+
+## 🔹 Example 1 – Basic Closure
+
+```js
+function outer() {
+  let counter = 0;   // variable inside outer
+
+  function inner() {
+    counter++;       // inner function uses outer variable
+    console.log(counter);
+  }
+
+  return inner;
+}
+
+const fn = outer();   // outer runs, returns inner
+fn(); // 1
+fn(); // 2
+fn(); // 3
+```
+
+✅ Here, `inner` function forms a **closure** over `counter`.
+Even though `outer()` has finished, `counter` still “lives” inside `fn`.
+
+---
+
+## 🔹 Example 2 – Private Data (Encapsulation)
+
+Closures are often used to **hide variables** (like private members in OOP).
+
+```js
+function secretNumber() {
+  let secret = 42;
+
+  return {
+    getSecret: function () {
+      return secret;
+    },
+    setSecret: function (newValue) {
+      secret = newValue;
+    }
+  };
+}
+
+const obj = secretNumber();
+console.log(obj.getSecret()); // 42
+obj.setSecret(99);
+console.log(obj.getSecret()); // 99
+```
+
+✅ Here `secret` is not accessible directly, only through the closure.
+
+---
+
+## 🔹 Example 3 – Loop Problem (Classic Interview Question)
+
+```js
+for (var i = 1; i <= 3; i++) {
+  setTimeout(() => {
+    console.log(i);
+  }, 1000);
+}
+// Output: 4, 4, 4
+```
+
+Why?
+Because `var` is function-scoped, all callbacks share the same `i`.
+
+Fix with **closure**:
+
+```js
+for (var i = 1; i <= 3; i++) {
+  (function(x) {
+    setTimeout(() => {
+      console.log(x);
+    }, 1000);
+  })(i);
+}
+// Output: 1, 2, 3
+```
+
+✅ Each IIFE creates a closure, capturing the correct value of `i`.
+
+---
+
+## 🔹 Example 4 – Function Factories
+
+```js
+function multiplier(factor) {
+  return function (num) {
+    return num * factor;
+  };
+}
+
+const double = multiplier(2);
+const triple = multiplier(3);
+
+console.log(double(5)); // 10
+console.log(triple(5)); // 15
+```
+
+✅ Each function “remembers” the `factor` it was created with.
+
+---
+
+## 🔹 Why Closures Are Important
+
+1. **Data Privacy** → simulate private variables.
+2. **Stateful Functions** → functions that remember things.
+3. **Callbacks & Event Handlers** → closures keep context.
+4. **Functional Programming** → building higher-order functions.
+
+---
+
+✅ In interviews, a closure is often defined as:
+**“A closure is when an inner function remembers and accesses variables from its outer function’s scope, even after the outer function has finished executing.”**
+
+---
+
+Do you want me to also give you **real-world use cases of closures** (like in event listeners, debounce/throttle, etc.) or keep it at the concept level?
