@@ -1,20 +1,26 @@
-DAG: directed asyclic graph
+DAG : directed asyclic graph
 
-#include <bits/stdc++.h> 
+#include <bits/stdc++.h>
 
-void topoDfs(int node,unordered_map<int,bool> &visited,stack<int> &s,unordered_map<int,list<int>> &adj){
-    visited[node]=true;
-    for(auto i:adj[node]){
-        if(!visited[i]){
-            topoDfs(i,visited,s,adj);
+      void
+      topoDfs(int node, unordered_map<int, bool> &visited, stack<int> &s, unordered_map<int, list<int>> &adj)
+{
+    visited[node] = true;
+    for (auto i : adj[node])
+    {
+        if (!visited[i])
+        {
+            topoDfs(i, visited, s, adj);
         }
     }
     s.push(node);
 }
 
-vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)  {
-    unordered_map<int,list<int>> adj;
-    for(int i=0;i<edges.size();i++){
+vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)
+{
+    unordered_map<int, list<int>> adj;
+    for (int i = 0; i < edges.size(); i++)
+    {
         int u = edges[i][0];
         int v = edges[i][1];
 
@@ -22,16 +28,19 @@ vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)  {
     }
 
     stack<int> s;
-    unordered_map<int,bool> visited;
+    unordered_map<int, bool> visited;
 
-    for(int i=0;i<v;i++){
-        if(!visited[i]){
-            topoDfs(i,visited,s,adj);
+    for (int i = 0; i < v; i++)
+    {
+        if (!visited[i])
+        {
+            topoDfs(i, visited, s, adj);
         }
     }
 
     vector<int> ans;
-    while(!s.empty()){
+    while (!s.empty())
+    {
         ans.push_back(s.top());
         s.pop();
     }
@@ -60,7 +69,7 @@ Note that there are multiple topological sortings possible for a DAG. For the gr
 Note:
 1. It is guaranteed that the given graph is DAG.
 2. There will be no multiple edges and self-loops in the given DAG.
-3. There can be multiple correct solutions, you can find any one of them. 
+3. There can be multiple correct solutions, you can find any one of them.
 4. Don’t print anything, just return an array representing the topological sort of the vertices of the given DAG.
 
 ******

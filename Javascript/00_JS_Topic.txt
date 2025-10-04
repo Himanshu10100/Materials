@@ -43,8 +43,8 @@ I’ll give you a **complete list of JavaScript topics** from **beginner → int
 //26. `this` keyword
 //27. Closures
 //28. Callbacks
-29. Promises
-30. Async / Await
+//29. Promises
+//30. Async / Await
 31. Synchronous vs Asynchronous Execution
 32. JavaScript Event Loop + Call Stack + Callback Queue + Microtask Queue
 33. Higher-Order Functions
