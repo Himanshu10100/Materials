@@ -1,3 +1,5 @@
+Github Repo : https://github.com/liquidslr/system-design-notes
+
 # 📚 **System Design Topics (Step by Step)**
 
 ### 1. **Foundations**

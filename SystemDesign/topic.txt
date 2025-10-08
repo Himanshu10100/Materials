@@ -1,0 +1,7 @@
+1. Client-Server Architecture:
+2. Database:
+    persistence, disk, memory
+3. Distributed System
+    Vertical scaling
+    Horizontal Scaling
+4. Latency vs Throughput
