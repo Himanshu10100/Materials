@@ -5,3 +5,9 @@
     Vertical scaling
     Horizontal Scaling
 4. Latency vs Throughput
+
+I am starting to learn system design for my upcoming goal.
+and Its very helpful skill in AI era to stay ahead of many.
+I'll give you topic and you'll explain it to me end  to end with practical example.
+
+topic: * Scalability basics (vertical vs horizontal scaling)

@@ -1,0 +1,227 @@
+After understanding **Scalability**, the next core concept — **Latency vs Throughput** — helps you measure *how well your system performs* under load.
+
+---
+
+## 🚀 1. The Core Idea
+
+When we talk about a system’s performance, two fundamental metrics always come up:
+
+| Metric            | What It Means                                                  | In Simple Words |
+| ----------------- | -------------------------------------------------------------- | --------------- |
+| ⚡ **Latency**     | The time it takes to process **one request**                   | "How fast?"     |
+| 🔁 **Throughput** | The number of requests the system can handle **per unit time** | "How many?"     |
+
+So:
+
+* **Latency** → speed per request
+* **Throughput** → total capacity over time
+
+---
+
+## 🧠 2. Real-World Analogy (Toll Booth Example)
+
+Imagine a **toll booth** on a busy highway.
+
+| Concept        | Example                                                                  |
+| -------------- | ------------------------------------------------------------------------ |
+| **Latency**    | How long one car takes to pay the toll and pass through (say 5 seconds). |
+| **Throughput** | How many cars pass the toll per minute (say 12 cars/minute).             |
+
+If you:
+
+* Make the system faster (e.g., add RFID tags) → **lower latency**
+* Add more toll lanes → **higher throughput**
+
+---
+
+## 💡 3. Practical Example — Web Server
+
+### Example: You have a Node.js backend for *ElectroMart*.
+
+| Scenario                          | Latency            | Throughput       |
+| --------------------------------- | ------------------ | ---------------- |
+| Small server (1 core)             | 200 ms per request | 10 requests/sec  |
+| Bigger server (8 cores)           | 100 ms per request | 80 requests/sec  |
+| Load-balanced cluster (4 servers) | 100 ms per request | 320 requests/sec |
+
+So:
+
+* Each request is handled faster → lower latency
+* More requests handled overall → higher throughput
+
+---
+
+## ⚙️ 4. Latency in Detail
+
+**Latency** = The delay from when a request is made to when a response starts arriving.
+
+### Breakdown:
+
+Latency includes:
+
+1. **Network latency** — Time for data to travel over the internet
+2. **Processing latency** — Time server takes to compute
+3. **Queue latency** — Time request waits if all threads are busy
+4. **Database latency** — Time to query or write data
+
+🧩 Example (API Request Timeline):
+
+| Step               | Type               | Example Time |
+| ------------------ | ------------------ | ------------ |
+| Client → Server    | Network latency    | 50 ms        |
+| Server → DB query  | DB latency         | 80 ms        |
+| Server computation | Processing latency | 20 ms        |
+| **Total latency**  |                    | **≈150 ms**  |
+
+Lowering latency means optimizing every piece of this chain.
+
+---
+
+## ⚙️ 5. Throughput in Detail
+
+**Throughput** = Total number of requests handled per second (RPS) or per minute.
+
+It’s usually measured in:
+
+* **Requests per second (RPS)**
+* **Transactions per second (TPS)**
+* **Messages per second**
+
+Example:
+
+```
+Server A: 10 RPS
+Server B: 100 RPS
+Cluster of 5 servers: 500 RPS
+```
+
+---
+
+## 🔄 6. The Relationship Between Latency and Throughput
+
+They’re **related but not the same**:
+
+| When you improve… | What happens                                       |
+| ----------------- | -------------------------------------------------- |
+| ⚡ Latency ↓       | Throughput can ↑ (if server is freed up faster)    |
+| 🔁 Throughput ↑   | If system overloaded → Latency ↑ (queues build up) |
+
+### Visualization:
+
+```
+Low Load:
+Latency = 100ms, Throughput = 500 req/s
+
+High Load:
+Latency = 500ms, Throughput = 600 req/s
+
+Overload:
+Latency spikes to 5s, Throughput drops (timeouts)
+```
+
+So — **pushing for more throughput can increase latency** if not managed.
+
+---
+
+## 🧩 7. Real System Example — Amazon Checkout
+
+* You click “Buy Now” → Request sent to multiple services:
+
+  * User service
+  * Payment service
+  * Inventory service
+  * Notification service
+
+If one service takes too long → total **latency** increases.
+
+To improve:
+
+* Use **parallel requests** (reduce latency)
+* Use **caching or replication** (improve throughput)
+* Use **load balancers** (spread requests)
+
+---
+
+## ⚖️ 8. Optimization Techniques
+
+| Goal                    | Techniques                                                                     |
+| ----------------------- | ------------------------------------------------------------------------------ |
+| **Reduce Latency**      | Caching, CDN, faster DB queries, in-memory stores (Redis), reduce network hops |
+| **Increase Throughput** | Load balancing, microservices, batching, async processing, horizontal scaling  |
+
+### Example:
+
+Your *ElectroMart* image API takes 500ms/request and supports 20 RPS.
+
+* Use **Redis caching** → 50ms latency
+* Add **3 servers + load balancer** → 60 RPS total throughput
+  Result → Faster and can serve more users at once.
+
+---
+
+## 📈 9. Measuring in Real Systems
+
+| Tool                                    | Use                                           |
+| --------------------------------------- | --------------------------------------------- |
+| **Postman / JMeter / k6**               | Load test APIs (measure latency & throughput) |
+| **Prometheus + Grafana**                | Monitor real-time performance                 |
+| **AWS CloudWatch / Datadog / NewRelic** | Production monitoring                         |
+
+Example metric:
+
+```
+p95 latency = 250ms  → 95% of requests finish within 250ms
+Throughput = 2000 req/s
+```
+
+---
+
+## 🧠 10. Key Takeaways
+
+| Concept        | Description                          | Example             |
+| -------------- | ------------------------------------ | ------------------- |
+| **Latency**    | Time per request                     | 150 ms per request  |
+| **Throughput** | Requests per second                  | 2000 req/s          |
+| **Goal**       | Keep latency low and throughput high | Scale efficiently   |
+| **Trade-off**  | Too much load → latency increases    | Need proper scaling |
+
+---
+
+## ⚙️ 11. In the AI Era
+
+AI models (like GPT, image recognition, or recommender systems) face the same balance:
+
+* **Latency** → How fast can a model respond (e.g., generating one answer)
+* **Throughput** → How many responses per second it can serve globally
+
+That’s why AI platforms use:
+
+* **Batch inference** (process multiple queries at once)
+* **Model caching**
+* **GPU load balancing**
+
+So they keep both **latency low** and **throughput high**.
+
+---
+
+## 🧩 12. Summary Table
+
+| Aspect           | Latency                     | Throughput                        |
+| ---------------- | --------------------------- | --------------------------------- |
+| Definition       | Time to process one request | Total requests handled per second |
+| Metric           | ms or seconds               | requests/sec                      |
+| Focus            | Speed                       | Capacity                          |
+| Lower is better? | ✅ Yes                       | ❌ Not always (depends on scaling) |
+| Tools            | JMeter, k6                  | Prometheus, Grafana               |
+| Example          | 100ms API call              | 1000 requests/sec                 |
+
+---
+
+### ✅ TL;DR
+
+* **Latency = response time (speed)**
+* **Throughput = request volume (capacity)**
+* They are **inversely related** under high load.
+* Modern system design focuses on **balancing both** using scaling, caching, and load balancing.
+
+---
