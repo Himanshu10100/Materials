@@ -1,0 +1,264 @@
+Great — **CDN (Content Delivery Network)** is one of the *most important* system-design topics for performance and scalability.
+
+Below is a **complete, clean, practical explanation** — how CDN works, why we use it, real examples, interview answers, and diagrams.
+
+---
+
+# 🌍 **CDN — Content Delivery Network (End-to-End Explanation)**
+
+A **CDN** is a globally distributed network of servers that delivers **content** to users **from the closest server**.
+
+Instead of always hitting your origin server (e.g., USA), users get data from a server near them (e.g., Mumbai, Delhi, Bangalore).
+
+---
+
+# #️⃣ 1. **Why CDN Exists?**
+
+Without CDN:
+
+* A user in India accessing a USA server → **slow, high latency**
+* More distance = more milliseconds = slow website
+* One server handles traffic for whole world → overload
+
+With CDN:
+
+* User gets data from nearest **edge server**
+* Less distance = fast = high performance
+* Traffic load is shared globally
+
+---
+
+# #️⃣ 2. **What Content CDN Caches?**
+
+### 🟢 Static Content (Best fit)
+
+✔ Images
+✔ Videos
+✔ CSS, JS
+✔ PDFs
+✔ HTML (if allowed)
+✔ Fonts
+
+### 🟡 Dynamic Content (Limited or conditional)
+
+* API responses
+* Personalized data
+* Logged-in data
+  CDN may use **Edge Computing** or **Smart caching** here.
+
+---
+
+# #️⃣ 3. **How CDN Works — Step-by-Step**
+
+Let’s say a user from India opens:
+
+```
+https://www.netflix.com/homepage.jpg
+```
+
+### **Step 1: DNS routes the user to nearest CDN POP**
+
+POP = Point of Presence (local CDN data center)
+
+### **Step 2: CDN checks if file is cached**
+
+* If yes → return cached file (super fast)
+* If no → CDN fetches from origin server
+
+### **Step 3: CDN stores file**
+
+Next time ANY nearby user requests it → served instantly.
+
+---
+
+# #️⃣ 4. **Types of CDN Caching**
+
+### ✓ **1. Pull CDN (most common)**
+
+CDN pulls content from your origin **when requested**.
+
+### ✓ **2. Push CDN**
+
+You manually upload files to CDN buckets.
+
+### ✓ **3. Cache-Control Header Based**
+
+Server controls:
+
+* How long to cache
+* Whether to revalidate
+* Public/private caching
+
+Example:
+
+```
+Cache-Control: public, max-age=86400
+```
+
+---
+
+# #️⃣ 5. **CDN Internal Components**
+
+### 🟩 1. **Edge Servers**
+
+Closest nodes to user. Fastest.
+
+### 🟦 2. **Regional Caches**
+
+Bigger servers storing content for regions.
+
+### 🟥 3. **Origin Server**
+
+Your main backend/server.
+
+### 🟨 4. **PoP (Point of Presence)**
+
+Groups of edge servers around the world.
+
+---
+
+# #️⃣ 6. **What CDN Solves**
+
+### 🟢 **Problem 1: Latency**
+
+Distances reduce → speed increases.
+
+### 🟢 **Problem 2: Server load**
+
+Requests served from CDN → your origin server has less traffic.
+
+### 🟢 **Problem 3: Scalability**
+
+Millions of users can access local cached files.
+
+### 🟢 **Problem 4: Availability**
+
+If origin server is down, CDN can still serve cached content.
+
+### 🟢 **Problem 5: DDoS protection**
+
+CDN absorbs huge attack traffic.
+
+---
+
+# #️⃣ 7. Real-World Examples
+
+### 🟣 Big CDNs:
+
+* Cloudflare
+* Akamai (world largest CDN)
+* Fastly
+* Amazon CloudFront
+* Google Cloud CDN
+
+### 🟣 Apps using CDN:
+
+* Netflix
+* Amazon
+* Instagram
+* YouTube
+* Flipkart
+* Zomato
+* Swiggy
+
+Every big site uses CDN today.
+
+---
+
+# #️⃣ 8. **CDN & Geolocation Routing**
+
+CDN uses:
+
+* Anycast routing
+* GeoDNS
+* Routing to nearest edge
+
+Example:
+A user in Delhi → served from Delhi CDN.
+A user in Tokyo → served from Tokyo CDN.
+
+---
+
+# #️⃣ 9. **CDN and Cache Keys**
+
+CDN uses **cache keys** to decide what is unique content.
+
+Example:
+For:
+
+```
+/product?id=101&color=red
+```
+
+If the key includes full URL → different cache
+If simplified → same content reused
+
+CDNs allow customizing cache keys:
+
+* Header-based
+* Cookie-based
+* Path-based
+
+---
+
+# #️⃣ 10. **CDN vs Reverse Proxy vs Load Balancer**
+
+| Feature               | CDN                            | Reverse Proxy            | Load Balancer            |
+| --------------------- | ------------------------------ | ------------------------ | ------------------------ |
+| Location              | Global (distributed)           | Near backend servers     | Between client & backend |
+| Purpose               | Reduce latency, cache, offload | Protect backend, routing | Distribute traffic       |
+| Handles dynamic data? | Limited                        | Yes                      | Yes                      |
+| Ideal For             | Static content                 | API security, routing    | Scaling backend apps     |
+
+Most real apps use **all three**.
+
+---
+
+# #️⃣ 11. **When You Should Use CDN**
+
+✔ Global or national traffic
+✔ Media-rich app
+✔ E-commerce website
+✔ Streaming app
+✔ Social media
+✔ News website
+✔ High-traffic marketing pages
+
+---
+
+# #️⃣ 12. Interview Answers (Prep)
+
+### **Q: Why use CDN?**
+
+> To reduce latency, improve speed, offload origin servers, and deliver content efficiently using geographically distributed edge servers.
+
+### **Q: How does CDN reduce load on backend?**
+
+> By caching static assets at the edge, reducing repetitive requests to origin.
+
+### **Q: Can CDN serve dynamic content?**
+
+> Yes, via smart caching, edge computing, and API caching (Cloudflare Workers, Fastly Compute@Edge).
+
+### **Q: What happens if CDN doesn’t have the file?**
+
+> It fetches from origin → caches → serves.
+
+### **Q: How CDN handles DDoS attacks?**
+
+> Massive global servers absorb traffic and filter bad requests.
+
+---
+
+# #️⃣ 13. Summary Table
+
+| Feature       | CDN                             |
+| ------------- | ------------------------------- |
+| Purpose       | Reduce latency & load           |
+| Caches        | Static & partially dynamic data |
+| Benefit       | Faster website/app              |
+| Works Through | Edge servers worldwide          |
+| Provides      | Security + DDoS protection      |
+| Who Uses      | All modern big apps             |
+
+---
