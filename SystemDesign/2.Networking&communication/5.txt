@@ -1,0 +1,294 @@
+Great — this is an essential foundation for system design.
+I’ll explain **DNS, IP, and Load Balancer** in a complete, interview-ready, practical way.
+
+---
+
+# #️⃣ **Networking & Communication**
+
+## Topic: **DNS, IP, Load Balancer (Basics to Practical)**
+
+We’ll go step-by-step, starting from a user hitting a website to how the request reaches a server.
+
+---
+
+# 🔵 **1. IP Address — Digital Home Address**
+
+An IP address uniquely identifies a device on a network.
+
+## **Two Types**
+
+### **(A) IPv4**
+
+Format: `192.168.1.10`
+
+* Only *4 billion* possible → limited
+* Still most widely used
+* Easy to remember
+
+### **(B) IPv6**
+
+Format: `2400:6340:1234:0000:abcd:ef00:1234:5678`
+
+* Extremely large address space
+* Hard to remember
+* Solves IPv4 exhaustion
+
+---
+
+## 📌 **Public vs Private IP**
+
+### **Public IP**
+
+* Unique globally
+* Provided by ISP
+* Example: When you search *“your IP”* on Google → public IP
+
+### **Private IP**
+
+* Used inside local networks
+* Example: WiFi connected devices
+* Range: `192.168.x.x`
+
+### **Analogy**
+
+* **Public IP** = your home address
+* **Private IP** = room numbers inside your home
+
+---
+
+# 🔵 **2. DNS — Domain Name System**
+
+DNS converts **domain names → IP addresses**
+
+### Example:
+
+You type:
+
+```
+www.amazon.in
+```
+
+DNS converts it to:
+
+```
+52.95.120.14
+```
+
+Just like a phonebook for the internet.
+
+---
+
+# ⚙️ **How DNS Works — Step by Step**
+
+Let’s say you visit **[www.facebook.com](http://www.facebook.com)**.
+
+### **Step 1: Browser Cache**
+
+Browser checks if it already knows the IP.
+
+### **Step 2: OS Cache**
+
+Your OS maintains a DNS cache.
+
+### **Step 3: Resolver (Your ISP DNS / Google DNS)**
+
+If not cached → query goes to DNS resolver.
+
+### **Step 4: Root Server**
+
+Resolver asks:
+"Where is the server for `.com` domains?"
+
+### **Step 5: TLD Server (.com)**
+
+Points to:
+"facebook.com name server is here."
+
+### **Step 6: Authoritative DNS**
+
+Facebook DNS server responds with final IP.
+
+### **Step 7: Browser Connects to IP**
+
+Browser uses the IP to connect to Facebook’s server.
+
+---
+
+# 🟢 **Practical Example: Real Distributed DNS**
+
+Large apps use:
+
+* Cloudflare DNS
+* AWS Route53
+* Google Cloud DNS
+
+They support:
+
+* Geo-routing (closest server)
+* Load balancing
+* Failover
+* Caching
+
+DNS is often the **first layer of load balancing**.
+
+---
+
+# 🔵 **3. Load Balancer — Distributor of Traffic**
+
+A load balancer sits between clients and servers.
+It distributes incoming traffic across multiple servers.
+
+---
+
+# 🧱 **Why do we need Load Balancers?**
+
+1. High availability
+2. Scalability
+3. No single point of failure
+4. Maintenance without downtime
+5. Even traffic distribution
+
+---
+
+# 🟢 **Types of Load Balancers**
+
+## **1. Layer 4 Load Balancer (Transport Layer)**
+
+Uses:
+
+* IP
+* Port
+* TCP/UDP
+
+### Examples:
+
+* AWS NLB
+* HAProxy (L4 mode)
+
+### Pros:
+
+* Fast (no packet inspection)
+
+---
+
+## **2. Layer 7 Load Balancer (Application Layer)**
+
+Understands:
+
+* HTTP/HTTPS
+* Cookies
+* URLs
+* Headers
+
+### Examples:
+
+* NGINX
+* AWS ALB
+* Cloudflare
+
+### Pros:
+
+* Intelligent routing
+* Caching
+* SSL termination
+
+---
+
+# 🔥 **Load Balancing Algorithms**
+
+### **1. Round Robin**
+
+Each request goes to next server:
+
+```
+S1 → S2 → S3 → S1 → ...
+```
+
+### **2. Least Connections**
+
+New request goes where **fewest active connections**.
+
+### **3. IP Hash**
+
+Same client IP always goes to same server (session stickiness).
+
+### **4. Weighted Round Robin**
+
+Strong servers get more traffic.
+
+---
+
+# 🟣 **4. Putting All Together — Real-World Flow**
+
+You type:
+
+```
+https://www.myntra.com
+```
+
+### **Step 1 — DNS**
+
+DNS resolves `myntra.com` → IP of Load Balancer.
+
+### **Step 2 — Request reaches Load Balancer**
+
+Load balancer decides which backend server handles it.
+
+### **Step 3 — Server processes**
+
+Server fetches data from DB, cache, etc.
+
+### **Step 4 — Response sent back**
+
+Client gets HTML/JSON.
+
+---
+
+# 🟢 **5. Practical Example in System Design**
+
+## **Example: Build Scalable E-commerce website**
+
+* User types URL → DNS points to load balancer
+* Load balancer forwards request to nearest healthy app server
+* App server talks to:
+
+  * Redis cache
+  * MySQL/PostgreSQL (ACID)
+  * ElasticSearch (BASE)
+  * S3 (images)
+
+If one server goes down → LB routes traffic to others.
+
+---
+
+# 🧠 **6. Interview Tips**
+
+### **Q1: Why can't we directly expose servers?**
+
+* Failures → server down
+* Scaling → limited
+* Security risk
+* No SSL termination
+
+### **Q2: Why DNS-based load balancing is slow?**
+
+Because DNS caching delays updates.
+
+### **Q3: Difference between L4 and L7 LB?**
+
+* L4: IP/Port based (fast)
+* L7: HTTP/HTTPS based (smart)
+
+---
+
+# 🎯 Final Summary
+
+| Component         | Role                                |
+| ----------------- | ----------------------------------- |
+| **IP**            | Address for communication           |
+| **DNS**           | Converts domain → IP                |
+| **Load Balancer** | Distributes requests across servers |
+
+They work **together** every time a user hits a website.
+
+---
