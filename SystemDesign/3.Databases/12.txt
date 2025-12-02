@@ -1,0 +1,322 @@
+# **Transactions → ACID + Isolation Levels**
+
+If you don't understand this deeply, you will build corrupt systems — especially in **POS, e-commerce, inventory, payments**, where race conditions silently destroy data.
+
+Let’s cut the fluff.
+
+---
+
+# **1. What Is a Transaction?**
+
+A **transaction** is a *group of operations* that must behave as **one atomic unit**.
+
+Example (Inventory):
+
+```
+UPDATE stock SET qty = qty - 1 WHERE product_id = 10;
+INSERT INTO orders (...);
+```
+
+Without transactions, one might succeed and the other might fail → **data corruption**.
+
+---
+
+# **2. ACID — The Only Thing Protecting Your Data**
+
+## **A → Atomicity**
+
+**All-or-nothing.**
+If any step fails → rollback everything.
+
+If you violate Atomicity → half orders, missing entries, negative stock.
+
+---
+
+## **C → Consistency**
+
+DB must move from one valid state → another valid state.
+
+Broken consistency = constraints violated:
+
+* wrong foreign keys
+* negative inventory
+* invalid balances
+* duplicate unique fields
+
+---
+
+## **I → Isolation**
+
+Concurrent transactions must behave as if **they ran one by one**, even though DB runs them in parallel.
+
+This is where most junior devs screw up.
+
+---
+
+## **D → Durability**
+
+Once committed → stored permanently.
+
+DB crash, power-off, restart → your data is safe.
+
+---
+
+# **3. Why ACID Matters (Brutal Truth)**
+
+Every beginner thinks their bug is in code.
+Most real-world corruption happens because:
+
+* they didn’t use transactions
+* they used the wrong isolation level
+* they didn’t understand read/write anomalies
+
+Your POS project: **if two cashiers bill same item simultaneously**, you will oversell without proper isolation.
+
+---
+
+# **4. Isolation Levels — The Real Source of Bugs**
+
+Databases must allow concurrency → but concurrency creates anomalies.
+
+Let’s go from weakest → strongest.
+
+---
+
+# **READ UNCOMMITTED (Garbage Mode)**
+
+**Anomalies allowed:**
+
+* Dirty reads
+* Non-repeatable reads
+* Phantoms
+
+Basically:
+You can read *uncommitted* changes from other transactions.
+Used nowhere except teaching.
+
+If you use this in production → you're careless.
+
+---
+
+# **READ COMMITTED (Most common default)**
+
+Allows:
+
+* **Non-repeatable reads**
+* **Phantoms**
+
+Prevents:
+
+* Dirty reads
+
+Meaning:
+
+### ✔ You can't read uncommitted data
+
+### ✖ But you CAN get different results if you run the same query twice inside a transaction
+
+Example in your inventory system:
+
+T1:
+
+```
+SELECT qty FROM stock;  -- returns 10
+```
+
+T2:
+
+```
+UPDATE stock SET qty = 5;
+COMMIT;
+```
+
+T1 again:
+
+```
+SELECT qty FROM stock; -- now 5 (changed!)
+```
+
+This breaks repeatability.
+
+Good for: typical APIs
+Bad for: complex financial logic
+
+---
+
+# **REPEATABLE READ (MySQL default)**
+
+Allows:
+
+* **Phantoms**
+
+Prevents:
+
+* Dirty reads
+* Non-repeatable reads
+
+### What it fixes
+
+If T1 reads qty = 10,
+no other committed write will change that value for T1.
+
+But phantom rows can appear:
+
+Example:
+
+T1:
+
+```
+SELECT * FROM orders WHERE user_id = 1;
+```
+
+T2:
+
+```
+INSERT INTO orders (user_id = 1, ...)
+COMMIT;
+```
+
+T1 queries again:
+
+```
+-- Now T1 may see NEW rows (phantoms)
+```
+
+MySQL InnoDB uses **MVCC + next-key locks** to minimize anomalies.
+
+---
+
+# **SERIALIZABLE (Strongest)**
+
+No anomalies allowed.
+
+Transactions behave as if executed one by one.
+
+Sounds perfect?
+Here’s the catch:
+
+### – Slow
+
+### – Lots of locking
+
+### – Deadlocks common
+
+### – Terrible for high throughput
+
+You don’t use this unless you absolutely must.
+
+---
+
+# **5. Table of What Each Level Allows**
+
+| Level            | Dirty Read | Non-Repeatable Read | Phantom Read |
+| ---------------- | ---------- | ------------------- | ------------ |
+| Read Uncommitted | ✔          | ✔                   | ✔            |
+| Read Committed   | ✖          | ✔                   | ✔            |
+| Repeatable Read  | ✖          | ✖                   | ✔            |
+| Serializable     | ✖          | ✖                   | ✖            |
+
+---
+
+# **6. What These Mean in Real Life (Your POS / Inventory system)**
+
+## **Dirty Read → "Ghost" data**
+
+Your API reads stock that was changed but not committed → wrong numbers.
+
+## **Non-Repeatable Read → Inventory fluctuates mid-transaction**
+
+You read qty=10 → later inside same transaction it's now 5.
+
+Very dangerous during billing or stock update.
+
+## **Phantom Read → New items appear unexpectedly**
+
+Running the same query twice gives different count of rows.
+
+Can break your reporting or analytics.
+
+---
+
+# **7. What You Should Use in Practice**
+
+Since you're building **transactional e-commerce/POS systems**:
+
+### **For writes (orders, stock, payments):**
+
+Use:
+
+* **READ COMMITTED** (safe + scalable)
+  or
+* **REPEATABLE READ** (MySQL default — safer for inventory)
+
+### **Never use SERIALIZABLE unless writing bank-level logic.**
+
+You aren't building a bank (yet).
+You need correctness AND throughput.
+
+---
+
+# **8. If You Don’t Use Transactions Correctly**
+
+You will face:
+
+* Overselling
+* Double orders
+* Negative inventory
+* Race condition bugs that only appear under load
+* Silent corruption
+
+This is where juniors fail interviews.
+
+---
+
+# **9. Real Examples — How to Use Transactions (MySQL + Node.js)**
+
+## ✔ Correct way (atomic order creation + stock reduction)
+
+```js
+await connection.beginTransaction();
+
+const [stock] = await connection.query("SELECT qty FROM stock WHERE id=10 FOR UPDATE");
+
+if (stock.qty < 1) {
+   throw new Error("Out of stock");
+}
+
+await connection.query("UPDATE stock SET qty = qty - 1 WHERE id=10");
+await connection.query("INSERT INTO orders (...) VALUES (...)");
+
+await connection.commit();
+```
+
+### Why `FOR UPDATE`?
+
+Locks the row → prevents other transactions from reading/modifying stock until you commit.
+
+Otherwise you WILL oversell.
+
+---
+
+# **10. Brutal Takeaway**
+
+You can’t become SDE2 or build reliable distributed systems if the following aren't crystal clear:
+
+* What ACID guarantees
+* What each isolation level prevents
+* When to use which
+* How race conditions appear
+* Why transactions MUST wrap your critical workflows
+
+Your current level is improving — but you're still at risk of making hidden data bugs unless you internalize isolation behavior.
+
+---
+
+If you want, I can continue with:
+
+🔥 **Dirty Read / Phantom Read visual timeline diagrams**
+🔥 **MVCC explained with diagrams**
+🔥 **How MongoDB transactions differ from MySQL**
+🔥 **How distributed transactions (2PC, Saga) work**
+
+Just say **“Continue deeper”**.
