@@ -1,0 +1,218 @@
+# ✅ **20 Companies to Target (India / Remote-Friendly)**
+
+### ⭐ Big Tech / FAANG-level
+
+1. **Google**
+2. **Amazon**
+3. **Microsoft**
+4. **Meta (Facebook)**
+5. **Netflix** (rare but remote options exist)
+6. **Apple**
+
+### ⭐ Tier-1 Product Companies
+
+7. **Adobe**
+8. **Salesforce**
+9. **Uber**
+10. **Twilio**
+11. **Atlassian**
+12. **Dropbox**
+13. **Stripe** (remote friendly)
+14. **Datadog**
+15. **Cloudflare**
+16. **Snowflake**
+
+### ⭐ Top Indian Product Companies
+
+17. **Flipkart**
+18. **Swiggy**
+19. **Zomato**
+20. **PhonePe**
+21. **Razorpay**
+22. **Paytm**
+23. **Acko**
+24. **Meesho**
+
+*(List is 24 because product opportunities vary; more options = better shot)*
+
+---
+
+# ✅ **Common Company-Specific Interview Preparation Roadmap**
+
+Below is a unified roadmap based on how big tech & top product companies typically interview fresh/early-experience engineers.
+
+---
+
+## **1. Data Structures & Algorithms (DSA) – 60–70% weight**
+
+Topics to cover in order of priority:
+
+### **Core**
+
+* Arrays & Strings
+* Hashing
+* Sliding Window
+* Two Pointers
+* Linked List
+* Stack/Queue
+* Binary Search
+* Recursion + Backtracking
+* Trees + BST
+* Heaps
+* Graphs (BFS/DFS, Topo sort, shortest path)
+
+### **Difficulty Distribution**
+
+* **Easy:** 40%
+* **Medium:** 50%
+* **Hard:** 10% (optional unless targeting FAANG)
+
+### **For each company**
+
+| Company                     | Difficulty Trend | What to Focus                           |
+| --------------------------- | ---------------- | --------------------------------------- |
+| Google                      | Medium-Hard      | Graphs, DP, System Design fundamentals  |
+| Amazon                      | Medium           | Arrays, Strings, Sliding Window, Greedy |
+| Microsoft                   | Medium           | Trees/Graphs, OOP concepts              |
+| Meta                        | Medium-Hard      | Graphs + DP + BFS/DFS heavy             |
+| Uber / Airbnb / Dropbox     | Medium           | HashMap/Heap problems                   |
+| Atlassian / Twilio          | Medium           | Product-based coding + debugging round  |
+| Flipkart / Swiggy / PhonePe | Medium           | Real-world coding + SQL                 |
+
+---
+
+## **2. Low-Level Design (LLD) – mandatory for product companies**
+
+Topics:
+
+* OOP Principles (solid understanding)
+* Design Patterns
+* Designing:
+
+  * Parking Lot
+  * Splitwise
+  * BookMyShow
+  * Snake & Ladder
+  * Elevator System
+  * Rate Limiter
+
+---
+
+## **3. High-Level System Design (HLD) – light/basic for 1–2 YOE**
+
+Understand:
+
+* Load balancers
+* Caching (Redis)
+* Message queues
+* Database sharding
+* Basic designs like:
+
+  * URL Shortener
+  * Instagram Feed
+  * Chat application
+
+---
+
+## **4. Computer Science Core**
+
+Companies like Google/Microsoft test this more:
+
+* OS concepts
+* Networking
+* DBMS + SQL
+* Concurrency basics
+
+---
+
+## **5. Engineering / Project Round**
+
+Prepare:
+
+* Real-world project explanation
+* System components
+* API design
+* Scalability decisions
+* Performance improvements
+
+---
+
+# ✅ **Best Websites/Blogs for Company-Wise Interview Processes**
+
+## **1. LeetCode Discuss – Experiences**
+
+🔗 *Search “<Company> interview experience Leetcode”*
+
+This is the most accurate and updated source.
+
+---
+
+## **2. GeeksForGeeks Company-wise Archives**
+
+* GFG has interview experiences and coding questions for almost every company.
+
+Search:
+**“GFG <company name> interview questions”**
+
+---
+
+## **3. Glassdoor Interview Reviews**
+
+* For HR + behavioural + real question patterns.
+
+Search:
+**Glassdoor → Interviews → <Company Name>**
+
+---
+
+## **4. Blind Community**
+
+* Real engineers discussing interview difficulty, salary, questions.
+
+Search:
+**“Blind <company> interview process”**
+
+---
+
+## **5. YouTube Prep Channels**
+
+* **Tushar Roy** – Algorithms
+* **Errichto** – Competitive coding
+* **Hussein Nasser** – System design
+* **SudoCode** – Product-based interview prep
+
+---
+
+# ✅ **Exact 60-Day Roadmap Before You Start Giving Interviews**
+
+### **📅 Month 1 – Core DSA + Basics**
+
+**Week 1:** Arrays, Strings, Hashing
+**Week 2:** Sliding window, Two pointers, Binary search
+**Week 3:** Trees, Heaps
+**Week 4:** Graphs, Recursion, Backtracking
+
+🔹 Solve **25–30 problems/week**
+🔹 Focus on patterns and speed
+
+---
+
+### **📅 Month 2 – LLD + CS Fundamentals + Mock Interviews**
+
+**Week 1:** OOP + top 6 LLD questions
+**Week 2:** DBMS + SQL + OS basics
+**Week 3:** Light system design + project refinement
+**Week 4:** Mock interviews, resume optimisation, company-wise preparation
+
+⚡ Give **3–4 mock interviews** (Pramp / Interviewing.io).
+
+---
+
+# If you want, I can also generate:
+
+✅ A **complete study plan week-by-week (60-day)**
+✅ A **custom resume for targeting product companies**
+✅ **Expected salaries** for each company
+✅ A **daily preparation schedule (2 hours / 4 hours / 6 hours)**
+
+Just tell me what you prefer!

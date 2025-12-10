@@ -1,0 +1,199 @@
+# ✅ **25 US-Based Remote Companies You Should Target (1–3 YOE Friendly)**
+
+## ⭐ Remote-First US Tech Companies (Highly Active Hiring)
+
+1. **Automattic** (WordPress)
+2. **GitLab**
+3. **GitHub**
+4. **Zapier**
+5. **Toptal**
+6. **Stripe**
+7. **Datadog**
+8. **Cloudflare**
+9. **Doist**
+10. **Basecamp**
+
+---
+
+## ⭐ YC Startups (Hire 0–3 YOE, remote friendly, higher probability for Indians)
+
+11. **Rippling**
+12. **Brex**
+13. **Gusto**
+14. **Linear**
+15. **Replit**
+16. **Superhuman**
+17. **Figma**
+18. **Mixpanel**
+19. **Lambda Labs**
+20. **Clari**
+21. **Vercel**
+
+(YC companies pay **$70k–$150k** and actively hire remotely)
+
+---
+
+## ⭐ Product Companies Hiring Global Talent (Good Fit for 1–3 YOE)
+
+22. **Hotjar**
+23. **Elastic**
+24. **Remote.com**
+25. **Canonical (Ubuntu)**
+
+---
+
+# 🎯 **Exactly Where to Find US Remote Jobs**
+
+These job boards are the highest-conversion sources for US remote tech roles:
+
+### **1. Wellfound (formerly AngelList Talent)**
+
+Best for YC startups & early-stage US companies.
+
+### **2. YCombinator Jobs (Work at a Startup)**
+
+Direct hiring by YC startups.
+
+### **3. WeWorkRemotely**
+
+Strong for product-engineering roles.
+
+### **4. RemoteOK**
+
+Global remote roles, including US companies hiring Indian engineers.
+
+### **5. FlexJobs / Himalayas.dev**
+
+Verified remote-first US job listings.
+
+### **6. LinkedIn (filter: “US only”, “remote”, “open to international”)**
+
+---
+
+# ✅ **Interview Patterns of US Remote Companies (Early Career)**
+
+Most US product & remote-first companies follow this pattern:
+
+### **1️⃣ Coding Assessment**
+
+* LeetCode Mediums
+* Timed: 60–90 mins
+* Tools: HackerRank / Codility / CoderPad
+
+Typical topics:
+
+* Arrays, Hashing
+* Trees
+* Recursion
+* BFS/DFS
+* DP (light)
+* Real-world coding (string manipulation, JSON parsing)
+
+---
+
+### **2️⃣ Technical Interview 1–2 Rounds**
+
+Mostly:
+
+* Solve 1 easy + 1 medium problem
+* Explain complexity
+* Clean code and reasoning > brute force hacks
+
+---
+
+### **3️⃣ System Design (Beginner Level)**
+
+For 1–2 YOE, these companies only expect:
+
+* Basic REST API design
+* Database selection
+* Caching
+* Queues (light)
+
+Typical questions:
+
+* Design a URL shortener
+* Design a rate limiter
+* Design a task scheduler
+* Design a notes app
+
+---
+
+### **4️⃣ Project Deep Dive**
+
+This is **critical for US companies**.
+They expect:
+
+* Architecture explanation
+* Tradeoffs
+* Scaling discussions
+* What *you* built, not the team
+
+---
+
+### **5️⃣ Culture Fit / Communication**
+
+Remote-first = communication-heavy.
+
+Expect questions:
+
+* “How do you handle async communication?”
+* “Tell me about a conflict resolution situation.”
+* “How do you document your work?”
+
+---
+
+# 🧭 **Preparation Roadmap (US Remote Focus)**
+
+## **Month 1 – DSA + Fundamentals**
+
+* 150 LeetCode problems (easy/medium mix)
+* Master JavaScript or Python (US companies prefer)
+* Algorithms patterns: Sliding window, BFS/DFS, Recursion
+
+## **Month 2 – System Design + Projects**
+
+* Learn beginner-level HLD
+* Build 2 strong portfolio projects hosted with:
+
+  * Next.js / React
+  * Node.js / Python backend
+  * Deployed on Vercel / Render / AWS
+
+## **Bonus:**
+
+Make projects that look attractive to US startups:
+
+* Realtime Chat App
+* AI workflow tool
+* Task manager with Kanban
+* Billing & subscription system clone
+* Authentication system (OAuth + JWT)
+
+---
+
+# 📘 **Best Sites/Blogs for Interview Prep (US Remote Companies)**
+
+### **1. LeetCode Discuss – Company Tags**
+
+Search:
+
+* “Automattic interview questions”
+* “GitLab interview”
+* “Stripe interview experience”
+
+### **2. Blind (anonymous tech gossip + interview patterns)**
+
+You’ll get salary bands & interview questions.
+
+### **3. Interviewing.io**
+
+Recordings of FAANG & startup interviews.
+
+### **4. Levels.fyi**
+
+Salary bands + interview guides.
+
+### **5. GitLab Handbook / Automattic Hiring Docs**
+
+These companies openly publish their interview process.
