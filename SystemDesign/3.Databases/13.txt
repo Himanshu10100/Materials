@@ -1,0 +1,379 @@
+---
+
+# 🚀 **Caching in System Design (Beginner → Expert)**
+
+Caching is one of the most important components in system design. Without caching, your DB becomes the bottleneck. With caching, you reduce read load by **10x–100x**, cut query latency from **100ms → 1ms**, and improve scalability.
+
+Let’s break it down step by step.
+
+---
+
+# 1️⃣ **Why Do We Need Caching?**
+
+Your DB is the slowest part of your system.
+Frontend sends 100 requests → backend forwards 100 read queries → DB slows → system lags.
+
+But most requests **fetch the same data repeatedly**:
+
+* Product list
+* Product details
+* Dashboard summary
+* Customer data
+* Stock summary
+* Sales order details
+* Address list
+* Permissions / Roles
+
+You don’t need to ask the DB every time.
+
+So caching solves:
+
+### ✔ Reduce DB Load
+
+### ✔ Decrease Response Time
+
+### ✔ Save Cost
+
+### ✔ Scale Easily
+
+---
+
+# 2️⃣ **Where Can We Cache in a Typical System?**
+
+There are multiple layers.
+
+## **A. Application-level Cache (In-memory)**
+
+Example: storing data in a JS object inside Node.js
+
+```
+globalCache["product_12"] = { ... }
+```
+
+🟢 Pros:
+
+* Fastest (microseconds)
+* Zero infrastructure
+
+🔴 Cons:
+
+* Not shared between servers (each instance has its own cache)
+* Lost when server restarts
+
+Use only for temporary or per-request caching.
+
+---
+
+## **B. Distributed Cache (Redis / Memcached)** — MOST COMMON
+
+Redis is the industry standard.
+
+### When a request comes:
+
+1. Backend checks Redis: “Do we have product_12 cached?”
+2. If yes → return in 1 ms
+3. If no → query DB → store in Redis → return to client
+
+This is called **Cache Aside Strategy** (important for interview).
+
+---
+
+## **C. Database-level Cache** (MySQL buffer pool, query cache, index scans)
+
+### MySQL automatically caches:
+
+* Indexes
+* Frequent rows
+* Query plans
+
+But you don’t control it directly.
+System designers don’t rely only on DB cache → not scalable enough.
+
+---
+
+# 3️⃣ **Caching Patterns (VERY IMPORTANT – Interview Standard)**
+
+## ✔ **1. Cache Aside (Lazy Loading) – MOST USED**
+
+Flow:
+
+```
+Check cache → miss → query DB → store → return
+```
+
+Pros:
+
+* Simple
+* Popular
+* Cache only stores frequently used data
+
+Cons:
+
+* First request is slow
+
+Used in:
+
+* Product details
+* Profile data
+* Inventory
+
+---
+
+## ✔ **2. Write Through Cache**
+
+Every write goes to cache **and** DB.
+
+Pros:
+
+* Cache always up to date
+
+Cons:
+
+* Slower writes
+
+Used for:
+
+* Real-time dashboards
+
+---
+
+## ✔ **3. Write Back (Write Behind)**
+
+Write only to cache → DB updated asynchronously.
+
+Pros:
+
+* Fast writes
+
+Cons:
+
+* Risk of data loss if cache crashes
+
+Used for:
+
+* Analytics
+* Counters
+* Logs
+
+---
+
+# 4️⃣ **What Should You Cache? (Practical List)**
+
+### For your POS / eCommerce system:
+
+### **Cache These:**
+
+* Product master
+* Category list
+* Permissions / Roles
+* Customer master
+* Frequently used dropdowns
+* Stock snapshot
+* Variant master
+* Seller/user profile
+* Dashboard metrics
+* Menu structure
+
+### **DO NOT Cache:**
+
+* Payments
+* Ledger balances
+* JV entries
+* Real-time stock updates (cache only snapshot, not live)
+* Sensitive data (passwords, OTPs)
+
+---
+
+# 5️⃣ **Cache Invalidation – The Hardest Part**
+
+“How to keep cache updated when DB changes?”
+
+## Three strategies:
+
+### ✔ **1. TTL Expiration**
+
+Set expiry:
+
+```
+set("product_12", data, expiry=300) // 5 min
+```
+
+After 5 minutes → refresh.
+
+### ✔ **2. Manual Invalidate**
+
+After update:
+
+```
+redis.del("product_12")
+```
+
+### ✔ **3. Event-based Invalidation**
+
+When product updated → send event → remove/update cache.
+
+This is used in big systems (Amazon, Flipkart).
+
+---
+
+# 6️⃣ **Caching for Query Optimization**
+
+Caching helps when:
+
+### ❌ Query is heavy
+
+JOIN on 5 tables, grouping, aggregations, etc.
+
+### ❌ DB is under load
+
+High volume reads.
+
+### ❌ Same query repeats
+
+Dashboard, lists, metadata.
+
+---
+
+# 7️⃣ **Where Exactly Does Caching Fit in Architecture?**
+
+![Image](https://systemdesignschool.io/concepts/caching/cache-aside.png?utm_source=chatgpt.com)
+
+![Image](https://media.geeksforgeeks.org/wp-content/uploads/20240110183740/Cache-Working.jpg?utm_source=chatgpt.com)
+
+Backend → Cache Layer (Redis) → Database
+
+---
+
+# 8️⃣ **Different Types of Caches (Beginner Friendly)**
+
+## 1. **Object Cache**
+
+Store entire objects:
+
+```
+product:{id} → JSON
+```
+
+## 2. **Query Result Cache**
+
+Store MySQL query results:
+
+```
+SELECT * FROM customers WHERE id=10
+```
+
+Store hash of query as key.
+
+## 3. **Full Page Cache**
+
+Front-end HTML pages.
+
+## 4. **Content Delivery Network (CDN) Cache**
+
+Static files:
+
+* Images
+* Angular bundles
+* CSS/JS
+
+---
+
+# 9️⃣ **How to Implement Caching in Node.js (Simple Code)**
+
+## Step 1: Install Redis
+
+```
+npm install redis
+```
+
+## Step 2: Create a simple cache util
+
+```js
+import redis from "redis";
+const client = redis.createClient();
+
+await client.connect();
+
+export const getCache = async (key) => {
+  const data = await client.get(key);
+  return data ? JSON.parse(data) : null;
+};
+
+export const setCache = async (key, value, ttl = 300) => {
+  await client.set(key, JSON.stringify(value), { EX: ttl });
+};
+```
+
+---
+
+## Step 3: Use Cache in Product API
+
+```js
+app.get("/product/:id", async (req, res) => {
+  const key = `product_${req.params.id}`;
+  
+  const cached = await getCache(key);
+  if (cached) return res.json({ source: "cache", data: cached });
+
+  const product = await Product.findByPk(req.params.id);
+
+  if (product) await setCache(key, product, 300);
+
+  res.json({ source: "db", data: product });
+});
+```
+
+---
+
+# 🔟 **Advanced: What Happens on Cache Failure?**
+
+Good design principle:
+
+### Cache failure should NOT break the system.
+
+Always fallback to DB.
+
+---
+
+# 1️⃣1️⃣ How Caching Helps in System Design Interviews
+
+If asked:
+
+> "How will you scale your ecommerce / POS system?"
+
+Answer:
+
+### ✔ Add Redis cache for:
+
+* Product master
+* User profiles
+* Stock snapshot
+* Category list
+* Dashboard metrics
+
+### ✔ Reduce DB round trips
+
+### ✔ Use cache aside pattern with TTL
+
+### ✔ Set up eviction policies
+
+Boom — this is SDE2-level answer.
+
+---
+
+# 🎯 Final Advice (Direct & Practical)
+
+Himanshu, most beginners overthink caching.
+You don’t need crazy theory. Focus on this sequence:
+
+### **1. Identify repeated reads**
+
+### **2. Cache them using Redis**
+
+### **3. Set TTL**
+
+### **4. Invalidate on update**
+
+That’s it.
+
+Once you master this, system design becomes 10x easier.

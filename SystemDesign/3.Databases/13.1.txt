@@ -1,0 +1,302 @@
+Great — these are exactly the questions you *must* ask to actually understand caching like an engineer, not just theory.
+Let’s break everything down **crisply and deeply**.
+
+---
+
+# ✅ **1. “Where is cache data stored?”**
+
+When you use **Redis / Memcached**, cache is stored in:
+
+### 👉 **A separate in-memory server**
+
+Not in your Node.js memory.
+Not in your database.
+
+Think of Redis as:
+
+* A super–fast database
+* Lives in RAM
+* Shared across all backend servers
+
+So:
+
+```
+User 1 request → Node → Redis → (miss) → DB → Redis save → return  
+User 2 request → Node → Redis (hit) → return
+```
+
+### 🧠 Key Point
+
+**Cache is NOT stored per user.**
+It’s shared and global.
+
+---
+
+# ✅ **2. “On data update: should I remove cache or update cache?”**
+
+Good question. This is the heart of caching.
+
+You have two options:
+
+---
+
+## **Option A — Remove cache (Invalidate)**
+
+When product updates:
+
+```
+redis.del("product_list_cache")
+```
+
+Next request will fetch from DB and rebuild cache.
+
+⭐ Recommended for 90% use cases
+(Safe, simple, consistent)
+
+---
+
+## **Option B — Update cache immediately**
+
+When product updates in DB → update Redis value also.
+
+```
+redis.set("product_list_cache", newValue)
+```
+
+⭐ Used when data must remain real-time
+💥 But more complex → risk of stale updates
+
+---
+
+# 🎯 **Conclusion (Follow this)**
+
+For product list, stock, attributes, master data:
+
+### **→ Use cache invalidation (delete on update).**
+
+Cheaper & safer.
+
+---
+
+# ✅ **3. Types of Cache: Explain Type 3 & 4 deeply**
+
+You asked:
+
+> Explain type 3 and 4 deeply
+> How full HTML is cached?
+> How CDN caching works?
+> What is cached in device?
+> What is cached in CDN server?
+
+Let’s go step-by-step.
+
+---
+
+# 🔥 TYPE 3 — **Full Page Cache (HTML Cache)**
+
+This is used for **static or semi-static websites**:
+
+* Blogs
+* Product detail pages
+* Marketing pages
+* News articles
+* Landing pages
+
+Think WordPress, Amazon product pages, Flipkart categories, Netflix home page.
+
+### ❓How does it work?
+
+When user hits:
+
+```
+GET /product/123
+```
+
+Instead of:
+
+Node → SQL → templates → generate HTML
+
+We return a **pre-rendered HTML file** from cache.
+
+---
+
+## **Where is this HTML cached?**
+
+There are 3 possible layers:
+
+### **A. Cached in CDN (fastest)**
+
+Akamai, Cloudflare, AWS CloudFront
+
+### **B. Cached in Reverse Proxy**
+
+Nginx, Varnish
+
+### **C. Cached inside the backend**
+
+Not common for HTML.
+
+---
+
+## 📌 Example Flow (Flipkart Product Page)
+
+```
+User → CDN → Cached HTML → return in 5ms
+```
+
+If not cached:
+
+```
+CDN → Backend → DB → Generate HTML → return → CDN stores it
+```
+
+---
+
+## **How full HTML is cached?**
+
+HTML page becomes a **static asset**, just like a CSS/JS file.
+
+CDN stores:
+
+```
+/product/123 → index.html  
+/product/123 → product123.html  
+```
+
+CDN rules example:
+
+```
+Cache-Control: public, max-age=300
+```
+
+Means: cache this HTML for 5 min.
+
+---
+
+# 🔥 TYPE 4 — **CDN Cache (Images, videos, CSS, JS, static content)**
+
+### Simple Definition:
+
+A **CDN (Content Delivery Network)** hosts static files close to users worldwide.
+
+Example:
+Flipkart uses Akamai/CloudFront to host:
+
+* Images
+* Product images
+* Fonts
+* CSS
+* JavaScript bundles
+* Videos
+* Some API responses
+
+---
+
+# ❓“When I visit Flipkart, is it cached in my device or CDN server?”
+
+**Both — but in different layers.**
+
+Let’s explain.
+
+---
+
+# 🔥 Layer 1 — **CDN Cache (Primary)**
+
+When Flipkart pushes new JS/CSS or product images:
+
+1. They upload to CDN (CloudFront/Akamai)
+2. CDN distributes copies worldwide (India, US, Europe, Singapore…)
+3. When you request:
+
+```
+img/product123.jpg
+main.bundle.js
+style.css
+```
+
+Browser gets it from the closest server.
+
+### ⭐ This is the main caching layer.
+
+---
+
+# 🔥 Layer 2 — **Browser Cache (Local Device)**
+
+Your **Chrome browser** also stores files locally.
+
+For example:
+
+```
+Cache-Control: max-age=31536000
+```
+
+This means:
+
+* File is valid for 1 year
+* Browser won’t request again
+* Browser will load from its local disk
+
+### Example:
+
+When you visit Flipkart homepage again:
+
+* JS bundle → from browser cache
+* CSS → from browser cache
+* Logo → from browser cache
+
+Total page load time cuts by **70%**.
+
+---
+
+# 🧠 Final Answer:
+
+### ✔ CDN stores cached copies of static assets for millions of users
+
+### ✔ Browser (your device) stores cached copies ONLY FOR YOU
+
+### ✔ Dynamic data (product list, cart, prices) → always comes from backend, sometimes cached in Redis
+
+---
+
+# 🔄 HOW CDN & Browser Cache WORK TOGETHER
+
+### 1️⃣ First visit:
+
+```
+Browser → CDN → origin server → return → CDN stores → browser stores
+```
+
+### 2️⃣ Second visit:
+
+```
+Browser → local cache → won’t even hit CDN
+```
+
+UNLESS file changed.
+
+---
+
+# 🎯 Summary You Should Remember
+
+## **Type 3: Full Page Cache**
+
+* Entire HTML cached
+* Stored in CDN / Reverse proxy
+* Used for SEO pages, landing pages
+
+## **Type 4: CDN Cache**
+
+* For images, JS, CSS, videos
+* Cached in CDN edge servers
+* Also cached locally in browser
+* Makes site extremely fast
+
+---
+
+# 🧨 Want to verify your understanding?
+
+Answer this:
+
+### **If product price is updated, should full HTML cache be invalidated? And how?**
+
+Give your reasoning — I’ll correct you and take you to the next level.
