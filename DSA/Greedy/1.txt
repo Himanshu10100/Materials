@@ -1,0 +1,399 @@
+Below is a **clean, structured, brutally honest explanation of Greedy Algorithms** — **theory + practical**, then **easy questions with full explanation**, and finally **5 pattern-identification frameworks** (question-pattern + code-pattern).
+This will give you a *complete mental model* and *instant pattern recognition* for greedy problems.
+
+---
+
+# ✅ 1. THEORY — What Greedy Algorithm *Actually* Means (Not the School Definition)
+
+A **Greedy Algorithm** is a strategy where:
+
+> **At every step, you pick the *locally optimal choice* with the hope that it leads to a *globally optimal solution*.**
+
+BUT — the critical part beginners miss:
+
+### 👉 A greedy solution works **ONLY if the problem’s structure guarantees that local optimal choices lead to global optimality.**
+
+Most problems **cannot** be solved by greedy.
+So greedy is not a technique — it's a mindset that works for some problem structures.
+
+---
+
+# 📌 When Does Greedy Work?
+
+A problem must satisfy:
+
+### ✔ 1. **Greedy-choice property**
+
+Local optimum → Global optimum.
+
+### ✔ 2. **Optimal substructure**
+
+Optimal solution contains optimal solutions to subproblems.
+
+If even one fails → greedy fails → use DP.
+
+---
+
+# 🧠 PRACTICAL VIEW
+
+If you want to solve greedy problems fast:
+
+### **Ask yourself these questions:**
+
+1. *Can sorting help?*
+2. *Is the goal to minimize/maximize something?*
+3. *Is the choice at index i independent of previous choices?*
+4. *Does picking the best right now avoid worst cases later?*
+
+If these hold → greedy.
+
+---
+
+# 🔧 2. PRACTICAL IMPLEMENTATION STRUCTURE (C++)
+
+Greedy in C++ usually follows this pattern:
+
+```cpp
+// 1. Sort something (most greedy problems start with sorting)
+sort(v.begin(), v.end());
+
+// 2. Loop and make the best choice at every step
+for(auto &x : v) {
+    if(best_local_choice(x)) {
+        take(x);
+    }
+}
+```
+
+---
+
+# ✅ 3. EASY GREEDY QUESTIONS + EXPLANATIONS
+
+---
+
+# **Q1. Minimum Number of Coins**
+
+*(Classic beginner problem)*
+
+### ❓ Problem
+
+Given coins `{1, 2, 5, 10}`, find minimum coins needed to make amount = 27.
+
+### 💡 Greedy Intuition
+
+Always pick the **largest coin** ≤ remaining amount.
+
+### 🧠 Why it works?
+
+Indian currency is **canonical** → greedy always optimal.
+
+### ✔ Steps
+
+27 →
+Pick 10 → 17
+Pick 10 → 7
+Pick 5 → 2
+Pick 2 → 0
+Total = 4 coins.
+
+### 🧾 Code
+
+```cpp
+int minCoins(int amount, vector<int>& coins) {
+    sort(coins.rbegin(), coins.rend());
+    int cnt = 0;
+
+    for(int c : coins) {
+        cnt += amount / c;
+        amount %= c;
+    }
+    return cnt;
+}
+```
+
+---
+
+# **Q2. Activity Selection (Max Non-overlapping Intervals)**
+
+### ❓ Problem
+
+Given start/end times, choose **maximum activities** you can attend.
+
+### 💡 Intuition
+
+Pick the activity that finishes **first** — leaves maximum room for next.
+
+### ✔ Why Greedy Works?
+
+Choosing earliest finishing activity maximizes future opportunities.
+
+### ✔ Steps
+
+Sort intervals by **end time** → pick first → keep picking next non-conflicting.
+
+### 🧾 Code
+
+```cpp
+int maxActivities(vector<pair<int,int>>& a) {
+    sort(a.begin(), a.end(), [](auto &x, auto &y){
+        return x.second < y.second; // sort by end time
+    });
+
+    int lastEnd = -1;
+    int cnt = 0;
+    for(auto &p : a) {
+        if(p.first >= lastEnd) {
+            cnt++;
+            lastEnd = p.second;
+        }
+    }
+    return cnt;
+}
+```
+
+---
+
+# **Q3. Assign Cookies**
+
+### ❓ Problem
+
+Greedy problem from LeetCode:
+Children have greed factors, cookies have sizes.
+Maximize satisfied children.
+
+### 💡 Greedy Strategy
+
+Sort both → give **smallest possible cookie** that satisfies kid.
+
+### ✔ Why it works?
+
+Don't waste big cookies on low-greed kids.
+
+### 🧾 Code
+
+```cpp
+int findContentChildren(vector<int>& g, vector<int>& s) {
+    sort(g.begin(), g.end());
+    sort(s.begin(), s.end());
+
+    int i = 0, j = 0;
+    while(i < g.size() && j < s.size()){
+        if(s[j] >= g[i]) i++; // kid satisfied
+        j++; // move cookie
+    }
+    return i;
+}
+```
+
+---
+
+# **Q4. Largest Number After K Removals**
+
+### ❓ Problem
+
+Given number as string `s = "4321"`, and `k = 2`, remove K digits to make largest number.
+
+### 💡 Greedy Insight
+
+Remove digits that **stop the number from increasing**.
+
+Use stack:
+Keep removing previous digits if current digit is bigger.
+
+### 🧾 Code
+
+```cpp
+string removeKdigits(string s, int k) {
+    string st = "";
+    for(char c : s){
+        while(!st.empty() && st.back() < c && k > 0){
+            st.pop_back();
+            k--;
+        }
+        st.push_back(c);
+    }
+    while(k--) st.pop_back();
+    return st;
+}
+```
+
+---
+
+# **Q5. Minimum Platforms (Railway Stations)**
+
+### ❓ Problem
+
+Given trains arrival/departure times, find min platforms needed.
+
+### 💡 Greedy Trick
+
+Sort arrivals and departures separately.
+Walk through timeline → whenever arrival < departure → need platform.
+
+### 🧾 Code
+
+```cpp
+int minPlatforms(vector<int>& arr, vector<int>& dep) {
+    sort(arr.begin(), arr.end());
+    sort(dep.begin(), dep.end());
+
+    int i=0, j=0; 
+    int plat = 0, maxPlat = 0;
+
+    while(i < arr.size()){
+        if(arr[i] <= dep[j]) { plat++; i++; }
+        else { plat--; j++; }
+        maxPlat = max(maxPlat, plat);
+    }
+    return maxPlat;
+}
+```
+
+---
+
+# 🔥 4. GREEDY PATTERN IDENTIFICATION (This is what actually makes you fast)
+
+Below are **5 patterns** that cover **80% of greedy problems**.
+
+---
+
+# ⭐ PATTERN 1: **"Sort and Pick" Problems**
+
+### ❓ Question Pattern
+
+Maximize/minimize by choosing best item.
+Examples:
+
+* Activity Selection
+* Assign Cookies
+* Fractional Knapsack
+
+### 👨‍💻 Code Pattern
+
+```cpp
+sort(v.begin(), v.end(), custom_rule);
+for(auto &x : v) {
+    if(is_best_choice(x))
+        take(x);
+}
+```
+
+---
+
+# ⭐ PATTERN 2: **"Interval Scheduling" (Finish Early / Start Early)**
+
+### ❓ Question Pattern
+
+Intervals → maximize non-overlapping count.
+Or minimize rooms.
+
+Examples:
+
+* Activity selection
+* Meeting rooms
+* Train platforms
+
+### 👨‍💻 Code Pattern
+
+```cpp
+sort(intervals by end time);
+select if(start >= lastEnd);
+```
+
+---
+
+# ⭐ PATTERN 3: **"Use Smallest to Serve"**
+
+### ❓ Question Pattern
+
+Match resources to demands.
+Examples:
+
+* Assign Cookies
+* Gas station distribution
+* Scheduling small tasks first (SJF style)
+
+### 👨‍💻 Code Pattern
+
+```cpp
+sort(A);
+sort(B);
+two pointers → match minimum possible
+```
+
+---
+
+# ⭐ PATTERN 4: **"Greedy via Stack" (Monotonic Stack)**
+
+### ❓ Question Pattern
+
+Remove “bad” elements to form:
+
+* Largest number
+* Smallest sequence
+* Next greater element variations
+
+### 👨‍💻 Code Pattern
+
+```cpp
+for each element:
+    while(stack not empty AND bad_condition AND k>0)
+        pop
+    push element
+```
+
+---
+
+# ⭐ PATTERN 5: **"Timeline Sweep"**
+
+### ❓ Question Pattern
+
+Events happen over time → you count overlaps.
+
+Examples:
+
+* Min platforms
+* Meeting rooms
+* CPU scheduling
+
+### 👨‍💻 Code Pattern
+
+```cpp
+sort(arrivals);
+sort(departures);
+
+i=j=0; count=0
+while(i<n):
+    if(arr[i] <= dep[j]) count++, i++;
+    else count--, j++;
+```
+
+---
+
+# 🎯 FINAL ADVICE (Brutally Honest)
+
+If you struggle with greedy:
+
+* It’s not your coding — it’s your pattern recognition.
+* The trick is NOT “thinking hard”.
+* The trick is “find the problem’s invariant”.
+
+Your brain should instantly ask:
+
+* *Should I sort?*
+* *Is there a resource allocation?*
+* *Is this an interval problem?*
+* *Does local best → global best?*
+
+If yes → greedy.
+
+---
+
+If you want, I can give:
+
+✅ Intermediate greedy questions
+✅ Hard greedy questions
+✅ Greedy vs DP comparison
+✅ 10 more greedy patterns
+
+Just say: **“Give Level-2 greedy”**
