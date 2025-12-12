@@ -1,8 +1,3 @@
-Below is a **clean, structured, brutally honest explanation of Greedy Algorithms** — **theory + practical**, then **easy questions with full explanation**, and finally **5 pattern-identification frameworks** (question-pattern + code-pattern).
-This will give you a *complete mental model* and *instant pattern recognition* for greedy problems.
-
----
-
 # ✅ 1. THEORY — What Greedy Algorithm *Actually* Means (Not the School Definition)
 
 A **Greedy Algorithm** is a strategy where:
