@@ -1,0 +1,221 @@
+---
+
+# CDN Cache — End-to-End, No Fluff
+
+## What is a CDN (in one line)
+A **Content Delivery Network** stores copies of your content at locations **close to users** so requests don’t hit your server every time.
+
+Example CDN: entity["organization","Cloudflare","cdn company"], entity["organization","AWS CloudFront","cdn service"]
+
+---
+
+## Why CDN exists (real problem)
+
+Without CDN:
+```
+User (Delhi)
+   ↓
+Your Server (Mumbai)
+```
+
+- High latency
+- Server load increases linearly with users
+- Bandwidth cost explodes
+- Server becomes bottleneck
+
+With CDN:
+```
+User (Delhi)
+   ↓
+CDN Edge (Delhi)  ✅
+   ↓ (only on miss)
+Origin Server (Mumbai)
+```
+
+---
+
+## How CDN Cache Actually Works
+
+### First request (CACHE MISS)
+1. User requests `/main.8d9f3a.js`
+2. CDN does not have file
+3. CDN fetches from **origin server**
+4. CDN stores it at edge
+5. CDN responds to user
+
+### Next requests (CACHE HIT)
+- Served directly from edge
+- Origin server **not touched**
+
+This is why CDN = **traffic shield**.
+
+---
+
+## What CDN Can Cache
+
+### 1️⃣ Static assets (default & best use case)
+- JS
+- CSS
+- Images
+- Fonts
+- Videos
+
+Example response headers:
+```http
+Cache-Control: public, max-age=31536000, immutable
+```
+
+💡 Hash in filename = safe forever cache
+
+---
+
+### 2️⃣ HTML pages (careful)
+- Marketing pages
+- Landing pages
+- Blog pages
+
+❌ Not user-specific pages unless handled carefully
+
+---
+
+### 3️⃣ API responses (advanced, powerful)
+
+Example:
+```http
+GET /api/categories
+Cache-Control: public, max-age=300
+```
+
+- Same response for all users
+- CDN caches it
+- Backend load drops massively
+
+---
+
+## What CDN Should NOT Cache
+
+❌ Authenticated APIs  
+❌ User profile data  
+❌ Financial / private data  
+❌ Anything with cookies unless explicitly handled  
+
+Rule:
+> If response differs per user → **don’t cache publicly**
+
+---
+
+## Cache-Control (this is where power lies)
+
+### Key directives
+
+| Directive | Meaning |
+|---------|--------|
+| `public` | Can be cached by CDN |
+| `private` | Browser only |
+| `max-age` | Cache TTL |
+| `no-cache` | Revalidate before use |
+| `no-store` | Never cache |
+| `immutable` | Never changes |
+
+Example:
+```http
+Cache-Control: public, max-age=600
+```
+
+---
+
+## CDN Cache Invalidation (VERY IMPORTANT)
+
+### 1️⃣ Cache expiry (TTL)
+- Let cache die automatically
+- Simple but stale risk
+
+### 2️⃣ Versioned files (BEST)
+```
+main.8d9f3a.js → main.91ab2c.js
+```
+New deployment → new filename → new cache
+
+### 3️⃣ Manual purge
+- Force remove cache
+- Costly, slow at scale
+
+Cloudflare: “Purge Everything”  
+⚠️ Use carefully
+
+---
+
+## How Browser + CDN Work Together
+
+```
+Browser Cache
+    ↓
+CDN Cache
+    ↓
+Server Cache (Redis)
+    ↓
+Database
+```
+
+Example:
+- Browser has file → no CDN hit
+- Browser misses → CDN hit
+- CDN misses → server hit
+
+This layered cache is **intentional**, not accidental.
+
+---
+
+## Real Example: Your POS System
+
+### Assets
+- React build → cached in CDN
+- Images → CDN + browser cache
+
+### APIs
+- `/categories` → CDN cache (public)
+- `/products` → CDN cache with short TTL
+- `/cart` → ❌ no CDN cache
+- `/payments` → ❌ never cache
+
+### Result
+- 80–90% requests never hit backend
+- Faster UI
+- Lower infra cost
+- Safer system
+
+---
+
+## Common CDN Mistakes (watch yourself)
+
+❌ Caching authenticated APIs  
+❌ No versioning → stale UI bugs  
+❌ Using `no-cache` everywhere  
+❌ Relying only on purge  
+❌ Thinking CDN replaces backend cache  
+
+CDN ≠ Redis  
+CDN ≠ DB  
+
+Each has a **specific role**.
+
+---
+
+## Interview-level mental model
+
+> CDN is an **edge-level shared cache** optimized for **read-heavy, public, immutable or semi-static data**.
+
+If you say this and give 1 example, interviewer knows you **get it**.
+
+---
+
+## Brutal truth (for you)
+You already deploy apps.  
+If you don’t **design cache headers intentionally**, you’re leaving:
+- performance on the table
+- money on the table
+- reliability at risk
+
+Senior engineers **decide caching**, juniors just “enable Cloudflare”.
+
+---
