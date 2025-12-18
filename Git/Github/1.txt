@@ -1,0 +1,146 @@
+Good question. This is a **very common Git situation**, and you’re thinking correctly.
+
+You currently have:
+
+* Branch: `antigravity`
+* You checked out branch: `x`
+* You **modified code in `x`**
+* Changes are **not committed, not pushed**
+* You want:
+
+  * A **new branch**
+  * With **those same changes**
+  * And **push (publish) that new branch**
+
+### Key truth (important)
+
+👉 **Uncommitted changes live in your working directory, not in the branch.**
+So you can safely create a new branch and carry those changes with you.
+
+---
+
+## Step-by-step (safe & clean)
+
+### 1️⃣ Confirm you are on `x` branch
+
+```bash
+git branch
+```
+
+You should see:
+
+```
+* x
+  antigravity
+```
+
+Or explicitly:
+
+```bash
+git status
+```
+
+---
+
+### 2️⃣ Create a new branch from current state (with changes)
+
+```bash
+git checkout -b new-branch-name
+```
+
+Example:
+
+```bash
+git checkout -b feature/fix-tax-calculation
+```
+
+✅ This does:
+
+* Creates a new branch
+* Switches to it
+* **Keeps all your uncommitted changes**
+
+---
+
+### 3️⃣ Verify your changes are still there
+
+```bash
+git status
+```
+
+You should see:
+
+```
+On branch feature/fix-tax-calculation
+Changes not staged for commit:
+  modified: ...
+```
+
+---
+
+### 4️⃣ Add files to staging
+
+```bash
+git add .
+```
+
+(or add specific files if you want)
+
+---
+
+### 5️⃣ Commit the changes
+
+```bash
+git commit -m "Fix tax calculation logic"
+```
+
+Now your changes are safely recorded.
+
+---
+
+### 6️⃣ Push (publish) the new branch
+
+```bash
+git push -u origin feature/fix-tax-calculation
+```
+
+✅ `-u` sets upstream so future pushes can be:
+
+```bash
+git push
+```
+
+---
+
+## ✅ Final State
+
+* `x` branch → **unchanged**
+* `antigravity` → **unchanged**
+* `feature/fix-tax-calculation` → **has your code**
+* Branch is **published to remote**
+
+---
+
+## ⚠️ Common mistakes (avoid these)
+
+❌ Don’t stash unless you actually need to switch branches without creating one
+❌ Don’t commit to `x` if the work doesn’t belong there
+❌ Don’t push without committing
+
+---
+
+## 🧠 One-line shortcut (if you’re confident)
+
+```bash
+git checkout -b feature/new-work && git add . && git commit -m "msg" && git push -u origin feature/new-work
+```
+
+---
+
+If you want:
+
+* to **move changes to another existing branch**
+* or you already **accidentally committed in wrong branch**
+* or want to **split commits cleanly**
+
+tell me — I’ll show the exact recovery flow.
