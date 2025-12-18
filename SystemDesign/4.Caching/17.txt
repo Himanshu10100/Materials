@@ -1,0 +1,295 @@
+# Cache Eviction Policies — LRU, LFU, FIFO
+
+## Why eviction exists (start here)
+
+Cache is **finite**.
+
+When cache is full and a new item comes:
+
+> **Something must be removed**
+
+Eviction policy answers:
+
+* *What gets removed?*
+* *Why that item?*
+* *What breaks if we choose wrong?*
+
+---
+
+## 1️⃣ FIFO — First In, First Out
+
+### How it works
+
+* Oldest inserted item is removed
+* Access frequency **does not matter**
+
+Queue behavior:
+
+```
+Put A → Put B → Put C
+Cache full
+Put D → Evict A
+```
+
+---
+
+### Pros
+
+✔ Very simple
+✔ Low overhead
+
+---
+
+### Cons (important)
+
+❌ Ignores usage
+❌ Hot data can be evicted
+❌ Bad for real traffic patterns
+
+---
+
+### Real-world analogy
+
+A queue at a ticket counter:
+
+* Doesn’t care who needs it most
+* Just who came first
+
+---
+
+### When FIFO makes sense
+
+Almost **never** in modern systems.
+
+Maybe:
+
+* Very predictable batch workloads
+* Extremely simple cache layers
+
+👉 For Redis → **not recommended**
+
+---
+
+## 2️⃣ LRU — Least Recently Used (MOST COMMON)
+
+### How it works
+
+Evicts the item **not used for the longest time**
+
+```
+Access order:
+A → B → C → A → D
+
+Least recently used = B
+Evict B
+```
+
+---
+
+### Key idea
+
+> “Recent past predicts near future”
+
+This matches **real user behavior**.
+
+---
+
+### Pros
+
+✔ Great general-purpose policy
+✔ Simple mental model
+✔ Works well for APIs & web traffic
+
+---
+
+### Cons
+
+❌ One-time scans can poison cache
+❌ Frequency not considered
+
+Example:
+
+* User opens massive report once
+* Evicts many small hot items
+
+---
+
+### Redis support
+
+```conf
+maxmemory-policy allkeys-lru
+```
+
+---
+
+### Best use cases
+
+✔ API responses
+✔ Product lists
+✔ Config data
+✔ User session data
+
+---
+
+## 3️⃣ LFU — Least Frequently Used (SMART but COSTLY)
+
+### How it works
+
+Evicts item used **least number of times**
+
+```
+Access counts:
+A = 100
+B = 80
+C = 2
+
+Evict C
+```
+
+---
+
+### Key idea
+
+> “Popularity matters more than recency”
+
+---
+
+### Pros
+
+✔ Protects hot data
+✔ Great for long-lived popular items
+✔ Resists cache pollution
+
+---
+
+### Cons
+
+❌ Higher memory overhead
+❌ Old popular data may stay forever
+❌ Slightly slower than LRU
+
+Redis fixes this with **decaying counters**.
+
+---
+
+### Redis support
+
+```conf
+maxmemory-policy allkeys-lfu
+```
+
+---
+
+### Best use cases
+
+✔ Product catalogs
+✔ Category lists
+✔ Master data
+✔ Popular dashboards
+
+---
+
+## 4️⃣ Side-by-side comparison
+
+| Policy | Evicts         | Strength | Weakness       |
+| ------ | -------------- | -------- | -------------- |
+| FIFO   | Oldest         | Simple   | Dumb           |
+| LRU    | Least recent   | Balanced | Scan pollution |
+| LFU    | Least frequent | Smart    | Overhead       |
+
+---
+
+## 5️⃣ Redis eviction policy options (important)
+
+| Policy       | Meaning          |
+| ------------ | ---------------- |
+| noeviction   | ❌ Fail writes    |
+| allkeys-lru  | LRU for all keys |
+| allkeys-lfu  | LFU for all keys |
+| volatile-lru | LRU for TTL keys |
+| volatile-lfu | LFU for TTL keys |
+| volatile-ttl | Nearest expiry   |
+
+**Production default (common):**
+
+```conf
+allkeys-lru
+```
+
+---
+
+## 6️⃣ What YOU should use (POS system)
+
+### Financial data (JV, AR, BS)
+
+* TTL: short
+* Pattern: bursty
+* Requirement: correctness > speed
+
+✅ **LRU + short TTL**
+
+---
+
+### Master data (products, categories)
+
+* Long-lived
+* Popular
+* Rarely changes
+
+✅ **LFU**
+
+---
+
+### Sessions / tokens
+
+* TTL-based
+* Security-sensitive
+
+✅ **volatile-lru**
+
+---
+
+## 7️⃣ Cache poisoning (critical insight)
+
+LRU can be broken by:
+
+* Large one-time queries
+* Bulk exports
+* Admin reports
+
+Fix:
+
+* Separate Redis instances
+* Separate key namespaces
+* LFU for master data
+
+---
+
+## 8️⃣ What happens when eviction goes wrong
+
+❌ Hot data evicted → DB overload
+❌ Redis thrashing → latency spikes
+❌ Finance reports inconsistent
+❌ “Works in dev, fails in prod”
+
+Eviction bugs are **silent killers**.
+
+---
+
+## 9️⃣ Interview-ready explanation (say this)
+
+> Cache eviction defines which entries are removed when memory is full. LRU removes least recently used items and fits most web traffic. LFU removes least frequently used items and protects hot data. FIFO is simple but usually inefficient. Choosing eviction policy depends on access patterns and data criticality.
+
+---
+
+## Brutal truth (important for you)
+
+If you don’t:
+
+* size Redis properly
+* choose eviction intentionally
+* segment cache by data type
+
+Then eviction will **decide your system behavior randomly**.
+
+And randomness in finance systems = disaster.

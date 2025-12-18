@@ -1,0 +1,249 @@
+# Redis vs Memcached — End to End
+
+## What problem they solve
+
+Both are **in-memory data stores** used to:
+
+* Reduce DB load
+* Reduce latency
+* Handle high read traffic
+* Store temporary data
+
+But **they are not interchangeable**.
+
+---
+
+## 1️⃣ Memcached (simpler, dumber, faster)
+
+### What it is
+
+* Pure **key → value** store
+* Values are just **strings/bytes**
+* No persistence
+* No advanced features
+
+Think:
+
+> Memcached = fast shared hashmap
+
+---
+
+### Characteristics
+
+| Feature      | Memcached    |
+| ------------ | ------------ |
+| Data type    | String only  |
+| Persistence  | ❌ None       |
+| Replication  | ❌ None       |
+| Transactions | ❌            |
+| Pub/Sub      | ❌            |
+| TTL          | ✅            |
+| Speed        | 🔥 Very fast |
+| Complexity   | Very low     |
+
+---
+
+### Typical use cases
+
+✔ Simple page cache
+✔ DB query result cache
+✔ Temporary computed values
+
+Example:
+
+```js
+key: "home_page_data"
+value: JSON string
+TTL: 60 sec
+```
+
+---
+
+### Why Memcached is declining
+
+* No persistence
+* No replication
+* No HA
+* No rich data structures
+* Redis does **everything Memcached does + more**
+
+---
+
+## 2️⃣ Redis (powerful, flexible, industry standard)
+
+### What it is
+
+* In-memory **data structure store**
+* Can persist to disk
+* Can replicate
+* Can cluster
+* Can do atomic operations
+
+Think:
+
+> Redis = in-memory database + cache + message broker
+
+---
+
+### Redis data types (this is HUGE)
+
+| Type       | Use case       |
+| ---------- | -------------- |
+| String     | Simple cache   |
+| Hash       | Object storage |
+| List       | Queues         |
+| Set        | Unique items   |
+| Sorted Set | Leaderboards   |
+| Streams    | Event logs     |
+
+---
+
+### Example: Object cache (better than JSON string)
+
+```js
+await redis.hset(`so:${id}`, {
+  total: 10000,
+  status: "APPROVED",
+  customer: 5
+});
+```
+
+Fetch partial data without deserializing everything.
+
+---
+
+### Redis persistence (critical difference)
+
+* **RDB** – snapshot every X seconds
+* **AOF** – append every write
+
+So Redis **survives restarts**
+Memcached does **not**.
+
+---
+
+### Redis features Memcached cannot do
+
+✔ Atomic increments
+✔ Distributed locks
+✔ Rate limiting
+✔ Pub/Sub
+✔ Streams
+✔ Transactions (MULTI)
+✔ Lua scripting
+
+---
+
+## 3️⃣ Side-by-side comparison
+
+| Feature        | Redis  | Memcached   |
+| -------------- | ------ | ----------- |
+| Data types     | Rich   | String only |
+| Persistence    | ✅      | ❌           |
+| Replication    | ✅      | ❌           |
+| Clustering     | ✅      | ❌           |
+| HA             | ✅      | ❌           |
+| Atomic ops     | ✅      | ❌           |
+| Complexity     | Medium | Low         |
+| Industry usage | 🔥🔥🔥 | Declining   |
+
+---
+
+## 4️⃣ What real companies use
+
+* **Almost everyone uses Redis**
+* Memcached exists mostly in **legacy systems**
+* New systems → Redis by default
+
+If you say “Memcached” in interviews, expect:
+
+> “Why not Redis?”
+
+---
+
+## 5️⃣ How Redis fits your POS / finance system
+
+### ❌ What NOT to cache
+
+* Payment submission
+* Ledger writes
+* JV creation
+
+---
+
+### ✅ What TO cache (with short TTL)
+
+| Data          | Redis Key                   | TTL  |
+| ------------- | --------------------------- | ---- |
+| SO list       | `so:list:companyId`         | 30s  |
+| JV report     | `jv:report:companyId:month` | 30s  |
+| Trial Balance | `tb:companyId`              | 60s  |
+| Balance Sheet | `bs:companyId`              | 120s |
+| Product list  | `product:list`              | 300s |
+
+---
+
+## 6️⃣ Cache invalidation (finance-safe)
+
+Example: Payment created
+
+```js
+await redis.del([
+  `so:list:${companyId}`,
+  `jv:report:${companyId}`,
+  `tb:${companyId}`,
+  `bs:${companyId}`
+]);
+```
+
+You **invalidate**, not update.
+
+---
+
+## 7️⃣ Redis is NOT just a cache (important)
+
+Redis can also be used for:
+
+* Rate limiting
+* Job queues
+* Locks (prevent double payment)
+* Session storage
+* Real-time notifications
+
+But:
+
+> **Do not mix critical data storage and cache logic blindly**
+
+---
+
+## 8️⃣ Failure scenarios (system design thinking)
+
+### If Redis goes down
+
+* Backend must fall back to DB
+* System should degrade gracefully
+* No data loss (DB is source of truth)
+
+If Redis failure breaks system → **bad design**
+
+---
+
+## 9️⃣ Brutal truth (for you)
+
+If your design is:
+
+> “Redis = faster DB”
+
+You’re thinking shallow.
+
+Correct thinking:
+
+> “Redis protects DB, absorbs read spikes, and enables patterns DB cannot do efficiently.”
+
+---
+
+## Interview-ready one-liner
+
+> Redis is a distributed in-memory data store used as a cache and fast data structure layer to reduce database load, enable low-latency reads, and support patterns like rate limiting, locking, and pub/sub.
+
+---

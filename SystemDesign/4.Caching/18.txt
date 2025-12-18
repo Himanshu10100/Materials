@@ -1,0 +1,293 @@
+# Cache Consistency & Invalidation (The Real Problem)
+
+## Start with the uncomfortable truth
+
+> **Caching is easy. Keeping it correct is hard.**
+
+99% of cache bugs are **not performance bugs**.
+They are **wrong data bugs**.
+
+---
+
+## What is cache consistency?
+
+**Cache consistency** means:
+
+> Cached data must reflect the **correct state** of the source of truth (DB) within acceptable bounds.
+
+There are only **two states**:
+
+1. **Fresh** (correct)
+2. **Stale** (incorrect)
+
+System design is about:
+
+* **How stale is acceptable?**
+* **Where is staleness allowed?**
+* **How long?**
+
+---
+
+## Source of truth (never forget this)
+
+```
+Database = SOURCE OF TRUTH
+Redis     = DERIVED DATA
+CDN       = DERIVED DATA
+Browser   = DERIVED DATA
+```
+
+If your system treats Redis as truth → **you’re already wrong**.
+
+---
+
+## The 3 invalidation strategies (THIS IS CORE)
+
+### 1️⃣ TTL-based (Time To Live)
+
+#### How it works
+
+```js
+redis.set(key, value, EX 30);
+```
+
+Cache auto-expires.
+
+---
+
+### Pros
+
+✔ Simple
+✔ No invalidation code
+✔ Safe fallback
+
+---
+
+### Cons
+
+❌ Stale data until TTL ends
+❌ Hard to pick TTL
+❌ Bad for writes-heavy systems
+
+---
+
+### When TTL is OK
+
+* Dashboards
+* Reports
+* Read-heavy APIs
+* Non-critical data
+
+---
+
+## 2️⃣ Delete-on-write (MOST USED)
+
+#### How it works
+
+1. Update DB
+2. Delete related cache keys
+
+```js
+await db.updateSO(id, data);
+await redis.del(`so:${id}`);
+await redis.del(`so:list:${companyId}`);
+```
+
+---
+
+### Pros
+
+✔ Strong consistency
+✔ Simple logic
+✔ Predictable
+
+---
+
+### Cons
+
+❌ Easy to miss a key
+❌ Requires discipline
+❌ Multiple services = hard
+
+---
+
+### When to use
+
+✔ Financial systems
+✔ POS
+✔ Order management
+✔ Inventory
+
+👉 **This is your default**
+
+---
+
+## 3️⃣ Write-through / Write-back (advanced)
+
+### Write-through
+
+* Write to cache
+* Cache writes to DB
+
+### Write-back
+
+* Write to cache
+* DB updated later
+
+❌ **DO NOT USE** in finance systems
+✔ Used in analytics, counters, metrics
+
+---
+
+## Cache consistency patterns (real systems)
+
+### Pattern 1: Cache-aside (YOU SHOULD USE)
+
+```
+READ:
+Cache → DB → Cache
+
+WRITE:
+DB → Cache delete
+```
+
+This is **safe** and **boring** (good thing).
+
+---
+
+### Pattern 2: Read-through
+
+Cache fetches from DB automatically.
+
+Rare in Node apps.
+
+---
+
+## POS / Finance-specific example (very important)
+
+### Scenario: Payment received
+
+Effects:
+
+* JV changes
+* AR changes
+* Trial Balance changes
+* Balance Sheet changes
+* Cash book changes
+
+❌ Wrong approach:
+
+```js
+redis.del(`payment:${id}`);
+```
+
+✔ Correct approach:
+
+```js
+redis.del([
+  `jv:*`,
+  `ar:*`,
+  `trial_balance:*`,
+  `balance_sheet:*`,
+  `cash_book:*`
+]);
+```
+
+Invalidate **derived reports**, not raw rows.
+
+---
+
+## Why partial invalidation is dangerous
+
+If you delete:
+
+* JV cache
+  But keep:
+* AR cache
+
+➡️ AR ≠ JV
+➡️ Accounting mismatch
+➡️ Audit failure
+
+Finance systems require **holistic invalidation**.
+
+---
+
+## Cache stampede (advanced but important)
+
+### Problem
+
+* Cache expires
+* 1000 requests hit DB at once
+
+### Solution
+
+* Short TTL + lock
+* Single rebuild
+
+Redis lock:
+
+```js
+if (await redis.setnx("lock:jv", 1)) {
+  // rebuild cache
+}
+```
+
+---
+
+## Eventual consistency (accept it consciously)
+
+Some data **can be stale**:
+
+* Reports
+* Dashboards
+* Analytics
+
+Some data **must not**:
+
+* Payments
+* Inventory deduction
+* Ledger writes
+
+Senior engineers **decide** this explicitly.
+
+---
+
+## Common mistakes (watch yourself)
+
+❌ Caching DB rows directly
+❌ Forgetting list caches
+❌ Long TTL for finance data
+❌ Updating cache instead of invalidating
+❌ Treating Redis as DB
+
+---
+
+## Golden rules (print this)
+
+1. DB is truth
+2. Cache is disposable
+3. Invalidate on write
+4. Prefer delete over update
+5. Short TTL for financial data
+6. Group related caches
+
+---
+
+## Interview-grade answer (say this)
+
+> Cache consistency ensures cached data remains aligned with the database. The most common pattern is cache-aside with delete-on-write invalidation. TTLs handle fallback safety, but for critical systems like finance, explicit invalidation of all derived caches is required to avoid stale or inconsistent data.
+
+---
+
+## Brutal truth (for your level)
+
+If you:
+
+* forget one invalidation path
+* choose convenience over correctness
+
+Your system **will pass load tests**
+but **fail in real life**.
+
+That’s why cache bugs are feared.
