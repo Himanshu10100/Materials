@@ -1,0 +1,295 @@
+---
+
+## What is caching (in one line)
+
+**Caching = store data closer to where it’s used, so you don’t recompute or refetch it repeatedly.**
+
+The key idea is **distance**:
+
+> Closer to user → faster → cheaper → less load
+
+---
+
+## Big picture (where caching exists)
+
+```
+User
+ ↓
+Browser (Client-side cache)
+ ↓
+CDN (Cloudflare)
+ ↓
+API Server
+ ↓
+Server-side Cache (Redis)
+ ↓
+Database
+```
+
+Now we’ll break **client-side vs server-side** properly.
+
+---
+
+# 1️⃣ Client-side Caching
+
+**Cache lives on the user’s device**
+Browser, mobile app, local storage, memory.
+
+### Common forms
+
+* Browser cache (HTML, CSS, JS, images)
+* HTTP cache (`Cache-Control`, `ETag`)
+* LocalStorage / SessionStorage
+* IndexedDB (for large data)
+* In-memory cache (React state, Redux store)
+
+---
+
+### Example: Static files (React app)
+
+When user hits:
+
+```
+https://yourapp.com/main.8d9f3a.js
+```
+
+Server response:
+
+```
+Cache-Control: public, max-age=31536000, immutable
+```
+
+#### What happens
+
+* Browser downloads file once
+* Stores it locally
+* Next time → **NO server hit**
+* Page loads instantly
+
+👉 This is **client-side caching**
+
+---
+
+### Example: API response caching in browser
+
+```http
+GET /api/profile
+Cache-Control: private, max-age=60
+```
+
+* Browser caches response for 60 seconds
+* Refresh within 60 sec → no API call
+* After 60 sec → re-fetch
+
+---
+
+### React example (implicit client cache)
+
+```js
+const [products, setProducts] = useState([]);
+```
+
+* Data stays in memory
+* Route change → data reused
+* Hard refresh → cache lost
+
+Libraries like:
+
+* React Query
+* SWR
+
+→ **formal client-side caching**
+
+---
+
+### ✅ Pros of Client-side Cache
+
+✔ Very fast (zero network)
+✔ Reduces server traffic
+✔ Free (no infra cost)
+
+---
+
+### ❌ Cons of Client-side Cache
+
+❌ User-specific (can’t share across users)
+❌ Hard to invalidate correctly
+❌ Stale data risk
+❌ User can clear it anytime
+
+---
+
+### When to use client-side caching
+
+* Static assets (JS, CSS, images)
+* User profile data
+* Read-heavy UI data
+* Things that can be **slightly stale**
+
+---
+
+# 2️⃣ Server-side Caching
+
+**Cache lives on the server or infra**, shared by all users.
+
+### Common types
+
+* In-memory (Node process – bad at scale)
+* Redis / Memcached
+* Database query cache
+* CDN (also server-side, but edge-based)
+
+---
+
+### Example: Redis caching (your POS backend)
+
+Without cache:
+
+```
+Client → API → MySQL → API → Client
+```
+
+With Redis:
+
+```
+Client → API → Redis (hit) → Client
+             ↓ (miss)
+            MySQL
+```
+
+#### Code example (Node + Redis)
+
+```js
+const cached = await redis.get(`product:${id}`);
+if (cached) {
+  return JSON.parse(cached);
+}
+
+const product = await db.getProduct(id);
+await redis.setex(`product:${id}`, 300, JSON.stringify(product));
+return product;
+```
+
+---
+
+### Example: Shared data (Categories)
+
+* 1 category list
+* 100,000 users
+* Without cache → 100,000 DB hits
+* With Redis → **1 DB hit**
+
+This is where server-side cache **destroys client-side cache in impact**.
+
+---
+
+### CDN caching (Cloudflare)
+
+Cloudflare caches:
+
+* Images
+* JS/CSS
+* Public API responses
+
+User in Delhi:
+
+* Served from Delhi edge
+* Your server in Mumbai never gets hit
+
+---
+
+### ✅ Pros of Server-side Cache
+
+✔ Shared across users
+✔ Massive DB load reduction
+✔ Controlled invalidation
+✔ Reliable
+
+---
+
+### ❌ Cons of Server-side Cache
+
+❌ Extra infrastructure
+❌ Needs eviction strategy
+❌ Cache consistency issues
+❌ Costs money
+
+---
+
+### When to use server-side caching
+
+* Frequently accessed data
+* Expensive DB queries
+* Aggregated reports
+* Read-heavy endpoints
+* Cross-user shared data
+
+---
+
+# 3️⃣ Client vs Server – Side-by-side
+
+| Aspect      | Client-side   | Server-side    |
+| ----------- | ------------- | -------------- |
+| Location    | Browser / App | Redis / Memory |
+| Speed       | 🔥 Fastest    | Fast           |
+| Shared      | ❌ No          | ✅ Yes          |
+| Control     | ❌ Low         | ✅ High         |
+| Persistence | ❌ Unreliable  | ✅ Reliable     |
+| Cost        | Free          | Infra cost     |
+| Use case    | UI & static   | Business data  |
+
+---
+
+# 4️⃣ Real Production Rule (IMPORTANT)
+
+> **Never choose one. Use BOTH.**
+
+### Example: E-commerce product page
+
+1. CDN caches product image
+2. Browser caches JS/CSS
+3. React Query caches API response
+4. Redis caches product data
+5. DB as final source of truth
+
+This is **multi-layer caching**.
+
+---
+
+# 5️⃣ Cache Invalidation (where most devs fail)
+
+There are only **3 strategies**:
+
+1. **TTL-based** (expire after time)
+2. **Write-through** (update cache on DB write)
+3. **Delete-on-write** (invalidate cache when data changes)
+
+Example:
+
+```js
+await db.updateProduct(id, data);
+await redis.del(`product:${id}`);
+```
+
+❌ If you forget this → **bugs, wrong data, finance issues**
+
+---
+
+# 6️⃣ Brutal truth (for your level)
+
+Right now:
+
+* You know **how to use Redis**
+* But system design expects:
+
+  * **Where to cache**
+  * **Why**
+  * **What if cache fails**
+  * **How stale is acceptable**
+
+That’s the difference between:
+
+> “Backend developer” ❌
+> “System-thinking engineer” ✅
+
+---
