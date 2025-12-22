@@ -4,39 +4,39 @@ Github Repo : https://github.com/liquidslr/system-design-notes
 
 ### 1. **Foundations**
 
-* Scalability basics (vertical vs horizontal scaling)
-* Latency vs throughput
-* CAP theorem (Consistency, Availability, Partition tolerance)
-* ACID vs BASE
-
----
-
-### 2. **Networking & Communication**
-
-* DNS, IP, Load balancer basics
-* HTTP/HTTPS, REST vs gRPC
-* WebSockets, Long polling, SSE (Server-Sent Events)
-* CDN (Content Delivery Network)
-
----
-
-### 3. **Databases**
-
-* SQL vs NoSQL
-* Indexing, Partitioning, Sharding
-* Replication (Master-slave, Multi-leader)
-* Transactions (ACID), Isolation levels
-* Caching in DB (query optimization)
-
----
-
-### 4. **Caching**
-
-* Client-side vs Server-side caching
-* CDN cache
-* Redis / Memcached
-* Cache eviction policies (LRU, LFU, FIFO)
-* Cache consistency & invalidation
+#* Scalability basics (vertical vs horizontal scaling)
+#* Latency vs throughput
+#* CAP theorem (Consistency, Availability, Partition tolerance)
+#* ACID vs BASE
+#
+#---
+#
+#### 2. **Networking & Communication**
+#
+#* DNS, IP, Load balancer basics
+#* HTTP/HTTPS, REST vs gRPC
+#* WebSockets, Long polling, SSE (Server-Sent Events)
+#* CDN (Content Delivery Network)
+#
+#---
+#
+#### 3. **Databases**
+#
+#* SQL vs NoSQL
+#* Indexing, Partitioning, Sharding
+#* Replication (Master-slave, Multi-leader)
+#* Transactions (ACID), Isolation levels
+#* Caching in DB (query optimization)
+#
+#---
+#
+#### 4. **Caching**
+#
+#* Client-side vs Server-side caching
+#* CDN cache
+#* Redis / Memcached
+#* Cache eviction policies (LRU, LFU, FIFO)
+#* Cache consistency & invalidation
 
 ---
 

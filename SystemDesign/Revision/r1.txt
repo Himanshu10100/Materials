@@ -1,0 +1,54 @@
+
+## 1. **Foundations**
+
+* **Scalability**:
+  Vertical = scale up one machine; Horizontal = scale out with many machines (preferred at scale).
+* **Latency vs Throughput**:
+  Latency = response time per request; Throughput = requests handled per unit time.
+* **CAP Theorem**:
+  In a network partition, you must choose **Consistency or Availability**, not both.
+* **ACID vs BASE**:
+  ACID = strict correctness (RDBMS); BASE = eventual consistency for scale (NoSQL).
+
+---
+
+## 2. **Networking & Communication**
+
+* **DNS / IP / Load Balancer**:
+  DNS resolves names → IP; LB distributes traffic across servers.
+* **HTTP/HTTPS, REST vs gRPC**:
+  REST = JSON over HTTP; gRPC = binary, faster, strongly typed.
+* **WebSockets / Long Polling / SSE**:
+  Real-time communication strategies (bi-directional vs uni-directional).
+* **CDN**:
+  Serves static content closer to users to reduce latency and origin load.
+
+---
+
+## 3. **Databases**
+
+* **SQL vs NoSQL**:
+  SQL = relational, ACID; NoSQL = schema-flexible, scalable.
+* **Indexing / Partitioning / Sharding**:
+  Index = faster reads; Partition = split data; Sharding = split across nodes.
+* **Replication**:
+  Improves read scale and fault tolerance.
+* **Transactions & Isolation**:
+  Controls data correctness under concurrency.
+* **DB Caching**:
+  Reduce query cost via optimized access paths and memory.
+
+---
+
+## 4. **Caching**
+
+* **Client vs Server Cache**:
+  Browser/app cache vs backend cache.
+* **CDN Cache**:
+  Edge-level caching for static assets.
+* **Redis / Memcached**:
+  In-memory stores for fast data access.
+* **Eviction Policies**:
+  Decide what to remove when cache is full.
+* **Consistency & Invalidation**:
+  Hardest problem—keep cache and DB in sync.
