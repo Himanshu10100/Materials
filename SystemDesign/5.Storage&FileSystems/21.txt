@@ -1,0 +1,284 @@
+Good choice. **Distributed File Systems (DFS)** sit at a *different layer* than blob/object storage.
+Many engineers mix these up — that’s dangerous in system design.
+
+I’ll explain **HDFS and Ceph end-to-end**, then clearly contrast them with **S3 / GCS / Cloudinary** so the mental model is clean.
+
+---
+
+![Image](https://hadoop.apache.org/docs/r1.2.1/images/hdfsarchitecture.gif)
+
+![Image](https://docs.ceph.com/en/reef/_images/stack.png)
+
+![Image](https://media.geeksforgeeks.org/wp-content/uploads/20241023165919578822/Distributed-File-Systems-vs-Distributed-Object-Storage.webp)
+
+![Image](https://hadoop.apache.org/docs/r2.6.0/hadoop-project-dist/hadoop-hdfs/images/hdfsarchitecture.png)
+
+# Distributed File Systems (HDFS, Ceph)
+
+Examples:
+
+* **Apache Hadoop HDFS**
+* **Ceph**
+
+---
+
+## 1️⃣ What is a Distributed File System (DFS)?
+
+> **A distributed file system stores files across multiple machines but exposes them as a single file system.**
+
+Key phrase:
+👉 **“Looks like a normal file system, but runs on many servers.”**
+
+---
+
+## 2️⃣ Why DFS exists (real problem)
+
+Imagine:
+
+* Files are **huge** (GBs → TBs)
+* Need **parallel processing**
+* Single disk/server is too small or slow
+* Failures are normal, not exceptional
+
+DFS solves:
+
+* Storage at scale
+* Fault tolerance
+* High throughput
+* Parallel access
+
+---
+
+## 3️⃣ HDFS (Hadoop Distributed File System)
+
+### What HDFS is designed for
+
+* Big data
+* Batch processing
+* Analytics
+* Data lakes
+
+Not for:
+
+* Web apps
+* Low-latency APIs
+* Small files
+
+---
+
+### HDFS architecture (important)
+
+```
+Client
+  ↓
+NameNode (metadata)
+  ↓
+DataNodes (actual data blocks)
+```
+
+* **NameNode**
+
+  * Knows file names
+  * Knows block locations
+  * No actual data
+
+* **DataNode**
+
+  * Stores file blocks
+  * Replicates blocks (default = 3)
+
+---
+
+### How data is stored in HDFS
+
+* File is split into **large blocks** (128MB / 256MB)
+* Each block replicated across nodes
+
+```
+File (1GB)
+ ├── Block 1 (Node A, B, C)
+ ├── Block 2 (Node D, E, F)
+ └── Block 3 (Node G, H, I)
+```
+
+---
+
+### Key characteristics of HDFS
+
+| Aspect         | HDFS                  |
+| -------------- | --------------------- |
+| File type      | Huge files            |
+| Access pattern | Write once, read many |
+| Latency        | ❌ High                |
+| Throughput     | ✅ Very high           |
+| Updates        | ❌ No random writes    |
+| Use case       | Batch analytics       |
+
+---
+
+### Typical HDFS use cases
+
+✔ Logs
+✔ Clickstream data
+✔ ETL pipelines
+✔ ML training datasets
+✔ Data warehousing
+
+---
+
+## 4️⃣ Ceph (very different from HDFS)
+
+Ceph is **not just a file system**.
+
+> **Ceph is a unified distributed storage system.**
+
+It can provide:
+
+* **Block storage**
+* **File storage**
+* **Object storage**
+
+---
+
+### Ceph architecture (simplified)
+
+```
+Clients
+  ↓
+Ceph MON (cluster state)
+Ceph MDS (metadata for FS)
+Ceph OSD (actual data)
+```
+
+Ceph is:
+
+* Self-healing
+* No single point of failure
+* Strongly consistent
+
+---
+
+### Ceph interfaces (important)
+
+| Interface | Meaning                  |
+| --------- | ------------------------ |
+| RBD       | Block storage (VM disks) |
+| CephFS    | File system (POSIX)      |
+| RGW       | Object storage (S3-like) |
+
+This makes Ceph **very powerful**.
+
+---
+
+## 5️⃣ HDFS vs Ceph (clear comparison)
+
+| Aspect         | HDFS               | Ceph                        |
+| -------------- | ------------------ | --------------------------- |
+| Primary goal   | Big data analytics | General distributed storage |
+| Latency        | High               | Low–medium                  |
+| Small files    | ❌ Bad              | ✅ Good                      |
+| Random writes  | ❌                  | ✅                           |
+| POSIX FS       | ❌                  | ✅                           |
+| Object storage | ❌                  | ✅                           |
+| Typical users  | Data engineers     | Infra / platform teams      |
+
+---
+
+## 6️⃣ DFS vs Object / Blob Storage (CRITICAL)
+
+This is where people fail interviews.
+
+| Aspect         | DFS (HDFS/CephFS) | Object Storage (S3/GCS) |
+| -------------- | ----------------- | ----------------------- |
+| Access         | File system       | HTTP API                |
+| Partial writes | ✅                 | ❌                       |
+| Rename         | Cheap             | Expensive               |
+| Latency        | Lower             | Higher                  |
+| Scaling        | Complex           | Simple                  |
+| Ops overhead   | High              | Low                     |
+| Web apps       | ❌                 | ✅                       |
+
+---
+
+## 7️⃣ Where DFS is actually used
+
+### HDFS
+
+* Hadoop clusters
+* Spark jobs
+* ML pipelines
+* Offline analytics
+
+### Ceph
+
+* Private cloud storage
+* Kubernetes persistent volumes
+* OpenStack
+* On-prem S3 alternative
+
+---
+
+## 8️⃣ Where DFS should NOT be used
+
+❌ Serving images to users
+❌ Storing invoices for web apps
+❌ Replacing S3
+❌ Typical Node.js backends
+
+If you do this → **overengineering**.
+
+---
+
+## 9️⃣ Your POS / backend context (important)
+
+For you:
+
+* **DO NOT** use HDFS
+* **DO NOT** use Ceph (unless infra role)
+
+Correct choices:
+
+* Images → Cloudinary / S3
+* Invoices → S3 / GCS
+* Reports → S3
+* Logs → S3 or managed logging
+
+DFS is **not** your layer.
+
+---
+
+## 10️⃣ Interview-grade summary (perfect)
+
+> Distributed file systems like HDFS and Ceph store files across multiple machines while exposing a unified file system. HDFS is optimized for high-throughput batch processing of large files in big data workloads, while Ceph is a general-purpose distributed storage system supporting file, block, and object interfaces. Unlike object storage, DFS allows file-level operations and partial updates but comes with higher operational complexity.
+
+That answer shows **real clarity**.
+
+---
+
+## Brutal truth (important)
+
+If someone suggests:
+
+> “Let’s use HDFS instead of S3 for file uploads”
+
+They don’t understand system layers.
+
+---
+
+## Mental rule to remember forever
+
+* **Web apps → Object/Blob storage**
+* **Big data → HDFS**
+* **Private cloud infra → Ceph**
+
+---
+
+## Next natural topics (pick one)
+
+1. **Object vs Block vs File storage (deep dive)**
+2. **Why object storage won for web systems**
+3. **How HDFS supports ML pipelines**
+4. **Ceph in Kubernetes**
+5. **Storage choices in system design interviews**
+
+Pick one and we continue.

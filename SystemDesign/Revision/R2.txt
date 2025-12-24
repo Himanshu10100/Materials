@@ -1,0 +1,235 @@
+Good call. This is exactly how **strong engineers revise** — consolidate + compress.
+
+Below is **(1) what you learned** and **(2) a short revision summary side-by-side** so you can skim fast later.
+
+---
+
+# ✅ WHAT YOU LEARNED (FROM THIS CHAT)
+
+## 1. Caching (big picture)
+
+* Caching exists to **reduce latency, DB load, and cost**
+* Cache layers:
+
+  * Browser (client-side)
+  * CDN
+  * Server-side (Redis)
+* **Never rely on one cache** → always layered caching
+
+---
+
+## 2. Client-side vs Server-side caching
+
+* Client-side:
+
+  * Browser cache, React state, React Query
+  * Very fast, but **user-specific & unreliable**
+* Server-side:
+
+  * Redis / Memcached
+  * Shared across users
+  * Controlled & scalable
+* **Rule**: UI → client cache, business data → server cache
+
+---
+
+## 3. CDN cache
+
+* CDN caches **static, public, read-heavy** content
+* Good for:
+
+  * JS, CSS, images, videos
+  * Public APIs (categories, configs)
+* **Never cache**:
+
+  * SO / PO / JV
+  * Auth, payments, financial data
+* CDN ≠ backend cache ≠ DB
+
+---
+
+## 4. `no-cache` / `no-store`
+
+* `no-store` → nothing cached anywhere
+* `no-cache` → cache allowed but must revalidate
+* Using both everywhere:
+
+  * Kills CDN
+  * Increases DB load
+  * Makes system slow & costly
+* **Correct approach**: selective caching
+
+---
+
+## 5. Redis vs Memcached
+
+* Memcached:
+
+  * Simple key–value
+  * No persistence, no HA
+* Redis:
+
+  * Data structures
+  * Persistence
+  * Replication
+  * Locks, rate limiting, pub/sub
+* **Modern systems default to Redis**
+
+---
+
+## 6. Cache eviction policies
+
+* FIFO → dumb, rarely used
+* LRU → most common (recency-based)
+* LFU → protects popular data
+* Redis eviction must be **chosen intentionally**
+* Finance systems need **short TTL + careful eviction**
+
+---
+
+## 7. Cache consistency & invalidation
+
+* DB is **source of truth**
+* Cache is **derived & disposable**
+* Best pattern: **cache-aside**
+
+  * Read: cache → DB → cache
+  * Write: DB → cache delete
+* Finance systems require **holistic invalidation**
+* TTL is a fallback, not a guarantee
+
+---
+
+## 8. Object / Blob storage
+
+* Cloudinary, S3, GCS all store **binary objects (blobs)**
+* Files are already binary — **no conversion needed**
+* Store file → get URL → save URL in DB
+* Cloudinary = object storage **+ media intelligence**
+* S3/GCS = raw object storage
+
+---
+
+## 9. Blob vs Object terminology
+
+* Blob = binary data
+* Object storage = storage model
+* Different names, **same core concept**
+* Azure calls it *Blob Storage*, AWS calls it *S3*
+
+---
+
+## 10. Distributed File Systems (HDFS, Ceph)
+
+* DFS ≠ object storage
+* HDFS:
+
+  * Big data
+  * Batch processing
+  * Large files only
+* Ceph:
+
+  * Block + File + Object
+  * Infra-level system
+* **Web apps should NOT use DFS**
+
+---
+
+## 11. Block storage vs File storage
+
+* Block storage:
+
+  * Raw disk
+  * Low latency
+  * Best for databases
+* File storage:
+
+  * Shared filesystem
+  * Multiple machines
+  * Legacy & shared files
+* Object storage:
+
+  * HTTP-based
+  * Infinite scale
+  * Best for media & documents
+
+---
+
+# 🧠 SIDE-BY-SIDE REVISION SUMMARY (FAST)
+
+### Caching
+
+* Cache = speed + cost control
+* Always layered
+* DB is truth, cache is disposable
+
+### Client vs Server Cache
+
+* Client → UI speed
+* Server → business scalability
+
+### CDN
+
+* Static & public only
+* Never for financial APIs
+
+### Redis
+
+* Industry standard cache
+* Use for read-heavy & derived data
+
+### Eviction
+
+* LRU → default
+* LFU → popular data
+* FIFO → avoid
+
+### Consistency
+
+* Delete-on-write
+* Short TTL for finance
+* Invalidate reports together
+
+### Storage Types
+
+| Type        | Best For          |
+| ----------- | ----------------- |
+| Block       | Databases         |
+| File        | Shared FS         |
+| Object/Blob | Media, PDFs, logs |
+
+### Cloudinary / S3 / GCS
+
+* All store binary blobs
+* Cloudinary adds media features
+
+### DFS
+
+* HDFS → big data
+* Ceph → infra storage
+* Not for typical backend apps
+
+---
+
+# 🔒 ONE MASTER RULE (REMEMBER THIS)
+
+> **Databases want block storage, applications want object storage, analytics want distributed file systems.**
+
+If you remember just this, your storage decisions will be correct **80% of the time**.
+
+---
+
+## Where you stand now (honest assessment)
+
+* You are **past beginner**
+* You understand **real production trade-offs**
+* You can now **defend design choices in interviews**
+
+Next topics I strongly recommend:
+
+* **Object vs Block vs File (decision framework)**
+* **Secure file upload system design**
+* **Cache + DB consistency failures**
+* **System design interview questions using these concepts**
+
+Tell me which one you want next.
