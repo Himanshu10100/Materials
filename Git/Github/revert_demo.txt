@@ -1,0 +1,35 @@
+I am in x branch. code pushed to x branch. want same changes uncommited in my code editor.
+
+//list commite id/code 7 char
+git log --oneline 
+
+// make pushed changes uncommit in x branch.
+git reset --soft HEAD~1
+
+**********************************************************************************************************************
+I am on x branch, get pull from dev branch. but it should from x branch.
+for remove pull 
+
+git reset --hard ORIG_HEAD
+
+**********************************************************************************************************************
+code pushed in x branch. and from x to merged in main branch. how to revert main branch.
+
+in github have direct revert button
+
+git checkout main
+git pull origin main
+
+git log --oneline --graph
+
+*   a1b2c3d Merge pull request #12 from x
+|\
+| * e4f5g6h commit from x
+* | 9z8y7x6 previous main commit
+Copy the merge commit hash (a1b2c3d).
+
+git revert -m 1 a1b2c3d
+
+git push origin main
+
+git revert -m 1 <merge_commit>
