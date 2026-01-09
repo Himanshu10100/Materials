@@ -1,0 +1,55 @@
+git add .
+git commit -m "2 command needed"
+
+git commit -am "only one command"
+------------------------------------------------------------------------------------
+git commit --amend -m "used for last commit msg change"
+
+=>command for no message change but push code in last commit
+git commit --amend --no-edit 
+------------------------------------------------------------------------------------
+git push origin branch_name --force
+
+If you do this sequence:
+
+Your friend pushed some commits to remote branch x
+You did not do git pull → those commits are not in your local branch x
+You made your own changes locally on branch x
+You committed them
+You did git push origin x --force (or git push -f)
+
+Result:
+
+Your friend's commits that were only on remote disappear from the remote branch x.
+Remote branch x now looks exactly like your local branch x.
+In other words: only your commits remain, friend's new work is overwritten/lost 
+from the remote.
+------------------------------------------------------------------------------------
+git revert
+git log --oneline
+git revert 7_char_key_from_above_command
+------------------------------------------------------------------------------------
+git stash
+=> msg: saved working directory and index state WIP on master: 6d010fd 1
+=> run above where you want changes from remove like ctrl+x 
+
+git stash pop
+=>run above where you want changes to put like ctrl+v after ctrl+x
+------------------------------------------------------------------------------------
+git branch -M main
+=> for change branch name 
+------------------------------------------------------------------------------------
+git log
+
+git log --graph --oneline --decorate
+------------------------------------------------------------------------------------
+git bisect
+=> good for working 2 days ago, now broken.
+=>using binary search : for 1000 commit 10 search only to find bad commit
+
+git bisect start
+git bisect bad
+git bisect good a1b2c3d
+git bisect run npm test
+
+------------------------------------------------------------------------------------
