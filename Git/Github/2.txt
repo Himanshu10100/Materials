@@ -53,3 +53,40 @@ git bisect good a1b2c3d
 git bisect run npm test
 
 ------------------------------------------------------------------------------------
+squash
+
+git log --oneline
+c5
+c4
+c3
+c2
+c1
+
+git rebase -i HEAD~5
+pick c1 add form
+pick c2 fix css
+pick c3 fix validation
+pick c4 remove logs
+pick c5 final changes
+
+pick c1 add form
+s c2 fix css
+s c3 fix validation
+s c4 remove logs
+s c5 final changes
+Save & close.
+
+Add user registration form
+
+Save & exit.
+
+🎯 Done.
+All 5 commits → 1 commit.
+------------------------------------------------------------------------------------
+
+npm i husky
+
+=>It validate code before every commit
+------------------------------------------------------------------------------------
+git checkout -
+=> for go to previous branch
