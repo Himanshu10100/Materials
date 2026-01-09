@@ -31,5 +31,25 @@ git revert 7_char_key_from_above_command
 ------------------------------------------------------------------------------------
 git stash
 => msg: saved working directory and index state WIP on master: 6d010fd 1
+=> run above where you want changes from remove like ctrl+x 
+
+git stash pop
+=>run above where you want changes to put like ctrl+v after ctrl+x
+------------------------------------------------------------------------------------
+git branch -M main
+=> for change branch name 
+------------------------------------------------------------------------------------
+git log
+
+git log --graph --oneline --decorate
+------------------------------------------------------------------------------------
+git bisect
+=> good for working 2 days ago, now broken.
+=>using binary search : for 1000 commit 10 search only to find bad commit
+
+git bisect start
+git bisect bad
+git bisect good a1b2c3d
+git bisect run npm test
 
 ------------------------------------------------------------------------------------
