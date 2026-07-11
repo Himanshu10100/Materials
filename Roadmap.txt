@@ -1,5 +1,6 @@
 a
 d
+b
 
 Got it, Himanshu 👍
 Thanks for sharing openly — you already have a solid foundation (MERN + MySQL + POS project experience + internship + now working as SDE-1). The next 2–5 years can shape your career very well if you’re structured. Let’s break this down into **roadmap + skills + habits + leadership**.
